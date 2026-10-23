@@ -1,14 +1,11 @@
 import React from 'react';
 import { Level } from '../../types/journey';
 import { LevelToy } from './LevelToys';
-import { CommunityBench } from './CommunityBench';
 import {
   ArrowRight,
   Sparkles,
   Check,
-  ChevronDown,
   ChevronUp,
-  MessageSquare,
 } from 'lucide-react';
 
 interface LevelCardProps {
@@ -17,16 +14,14 @@ interface LevelCardProps {
   levelImage: string;
   isExpanded: boolean;
   isCurrent: boolean;
-  isBenchOpen: boolean;
   onToggleExpand: (levelId: number) => void;
-  onToggleBench: (levelId: number) => void;
   onAddXp: (amount: number) => void;
 }
 
 /**
  * LevelCard Component
  * Displays alternating 2-column milestone row with high-res 3D illustration,
- * curriculum details, interactive simulator drawer, and community bench.
+ * curriculum details, and interactive simulator drawer.
  */
 export const LevelCard: React.FC<LevelCardProps> = ({
   lvl,
@@ -34,9 +29,7 @@ export const LevelCard: React.FC<LevelCardProps> = ({
   levelImage,
   isExpanded,
   isCurrent,
-  isBenchOpen,
   onToggleExpand,
-  onToggleBench,
   onAddXp,
 }) => {
   const isImageLeft = index % 2 === 0;
@@ -146,12 +139,12 @@ export const LevelCard: React.FC<LevelCardProps> = ({
             ))}
           </div>
 
-          {/* Action Row: Expand Simulator + Community Bench */}
-          <div className="mt-8 pt-5 border-t border-slate-100 flex flex-wrap items-center gap-3">
+          {/* Action Row: Expand Simulator */}
+          <div className="mt-8 pt-5 border-t border-slate-100 flex items-center gap-3">
             <button
               type="button"
               onClick={() => onToggleExpand(lvl.id)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-white shadow-xs transition-all hover:scale-105 active:scale-95"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white shadow-xs transition-all hover:scale-105 active:scale-95"
               style={{ backgroundColor: lvl.accent }}
             >
               <span>{isExpanded ? 'Hide Interactive Lab' : 'Launch Interactive Lab'}</span>
@@ -162,15 +155,6 @@ export const LevelCard: React.FC<LevelCardProps> = ({
                   <ArrowRight className="w-3 h-3 text-white" />
                 )}
               </div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => onToggleBench(lvl.id)}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border border-slate-200 text-xs font-bold text-slate-600 hover:text-[#0088E0] hover:border-blue-300 hover:bg-blue-50/50 transition-colors"
-            >
-              <MessageSquare className="w-3.5 h-3.5" />
-              <span>{isBenchOpen ? 'Close Bench' : 'Community Bench'}</span>
             </button>
           </div>
 
@@ -190,13 +174,6 @@ export const LevelCard: React.FC<LevelCardProps> = ({
                   onAddXp={onAddXp}
                 />
               </div>
-            </div>
-          )}
-
-          {/* Community Bench Q&A Accordion */}
-          {isBenchOpen && (
-            <div className="mt-5 pt-4 border-t border-slate-100 animate-in fade-in duration-300">
-              <CommunityBench levelId={lvl.id} accent={lvl.accent} />
             </div>
           )}
         </div>

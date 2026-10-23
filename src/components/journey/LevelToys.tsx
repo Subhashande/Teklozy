@@ -62,7 +62,7 @@ export const LevelToy: React.FC<ToyProps> = ({
   const [championClaimed, setChampionClaimed] = useState(false);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (isCalling) {
       interval = setInterval(() => setCallTimer((prev) => prev + 1), 1000);
     } else {

@@ -38,6 +38,7 @@ export function useTeklozyJourney() {
     return () => {
       gsap.ticker.remove(tickerCallback);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 

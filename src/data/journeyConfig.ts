@@ -161,46 +161,4 @@ export const ALUMNI_PINS = [
   { id: 'a4', name: 'Sarah L.', role: 'Full-Stack Builder @ YC W24', time: 'Hired in 2 mos', x: 62, y: 72, avatar: '👩‍🔬', tip: 'Streak discipline at Level 02 completely changed my focus.' },
 ];
 
-// Tailored Community Bench Questions for each of the 10 levels
-export const COMMUNITY_QUESTIONS: Record<number, Array<{ id: string; title: string; votes: number; replies: number; author: string }>> = {
-  1: [
-    { id: 'q1', title: 'How do I decide between Frontend and Full-Stack if I love UI visual polish?', votes: 42, replies: 9, author: 'Alex_Dev' },
-    { id: 'q2', title: 'What are the highest demand entry-level roles right now in 2026?', votes: 31, replies: 14, author: 'CareerCurious' },
-  ],
-  2: [
-    { id: 'q3', title: 'Should I prioritize LeetCode or building personal projects during month 1?', votes: 76, replies: 23, author: 'StreakMaster' },
-    { id: 'q4', title: 'Best YouTube channels for deep JavaScript and React without fluff?', votes: 58, replies: 17, author: 'CodeBattler' },
-  ],
-  3: [
-    { id: 'q5', title: 'When does deep distributed systems architecture matter for junior engineers?', votes: 64, replies: 18, author: 'ArchNinja' },
-    { id: 'q6', title: 'Which vector database and retrieval framework should I master for AI engineering?', votes: 53, replies: 12, author: 'NeuralDave' },
-  ],
-  4: [
-    { id: 'q7', title: 'How to structure Jira tickets and branch naming conventions like a real startup?', votes: 89, replies: 31, author: 'ShipDaily' },
-    { id: 'q8', title: 'How do I pick an idea that impresses technical interviewers instead of another clone?', votes: 72, replies: 24, author: 'Founder01' },
-  ],
-  5: [
-    { id: 'q9', title: 'How do autonomous AI testing agents integrate with GitHub Actions CI?', votes: 95, replies: 40, author: 'DevOpsDan' },
-    { id: 'q10', title: 'What are the essential checks before deploying an API to live production?', votes: 61, replies: 19, author: 'ScaleFast' },
-  ],
-  6: [
-    { id: 'q11', title: 'What ATS resume formatting rules actually pass modern enterprise screening?', votes: 124, replies: 52, author: 'ResumeHunter' },
-    { id: 'q12', title: 'How to structure your GitHub profile README so hiring managers test the live link?', votes: 83, replies: 27, author: 'PixelCraft' },
-  ],
-  7: [
-    { id: 'q13', title: 'How to handle answering behavioral failure questions using the STAR framework?', votes: 110, replies: 44, author: 'MockPrep99' },
-    { id: 'q14', title: 'Best way to whiteboard a system design question under 45 minutes?', votes: 88, replies: 26, author: 'AlgoPro' },
-  ],
-  8: [
-    { id: 'q15', title: 'What are the biggest red flags for fake remote developer postings and paid training scams?', votes: 142, replies: 67, author: 'SafeCareers' },
-    { id: 'q16', title: 'Are developer bounties and hackathon wins considered legitimate experience?', votes: 79, replies: 21, author: 'FreelanceAce' },
-  ],
-  9: [
-    { id: 'q17', title: 'How to respectfully ask an alumni engineer for a 15-minute coffee chat or referral?', votes: 133, replies: 38, author: 'GuildSeeker' },
-    { id: 'q18', title: 'What is the average timeline from alumni introduction to first interview screen?', votes: 91, replies: 29, author: 'PriyaFan' },
-  ],
-  10: [
-    { id: 'q19', title: 'How do alumni volunteer to mentor the next incoming cohort on Teklozy?', votes: 204, replies: 88, author: 'ChampionTelo' },
-    { id: 'q20', title: 'First 90 days on the job checklist: how to make an immediate positive impact?', votes: 167, replies: 43, author: 'TeklozyAlum' },
-  ],
-};
+

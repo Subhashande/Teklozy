@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LEVELS } from '../../data/journeyConfig';
 import { JourneyPath } from '../journey/JourneyPath';
@@ -41,7 +40,7 @@ interface JourneySectionProps {
 /**
  * JourneySection Component
  * Orchestrates the 10-level scroll journey, background river stroke,
- * level rows, simulators, and outro section.
+ * level rows, simulators, and outro celebration section.
  */
 export const JourneySection: React.FC<JourneySectionProps> = ({
   activeLevelId,
@@ -51,7 +50,6 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
 }) => {
   const spotlightRef = useRef<HTMLElement>(null);
   const [expandedLevels, setExpandedLevels] = useState<Record<number, boolean>>({ 1: true });
-  const [activeBenchLevel, setActiveBenchLevel] = useState<number | null>(null);
   const [, setXpCount] = useState(2500);
 
   // Sync active level indicator with scroll position
@@ -86,10 +84,6 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
     }));
   };
 
-  const toggleBench = (levelId: number) => {
-    setActiveBenchLevel((prev) => (prev === levelId ? null : levelId));
-  };
-
   const handleAddXp = (amount: number) => {
     setXpCount((prev) => prev + amount);
   };
@@ -109,7 +103,6 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
           const levelImage = LEVEL_IMAGES[index] || LEVEL_IMAGES[0];
           const isExpanded = !!expandedLevels[lvl.id];
           const isCurrent = activeLevelId === lvl.id;
-          const isBenchOpen = activeBenchLevel === lvl.id;
 
           return (
             <LevelCard
@@ -119,9 +112,7 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
               levelImage={levelImage}
               isExpanded={isExpanded}
               isCurrent={isCurrent}
-              isBenchOpen={isBenchOpen}
               onToggleExpand={toggleExpand}
-              onToggleBench={toggleBench}
               onAddXp={handleAddXp}
             />
           );

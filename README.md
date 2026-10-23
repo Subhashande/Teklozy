@@ -15,7 +15,7 @@ src/
 │
 ├── components/
 │   ├── layout/
-│   │   └── Footer.tsx               # 4-column statement footer with faint watermark & newsletter
+│   │   └── Footer.tsx               # 3-column statement footer with faint watermark, company & socials
 │   │
 │   ├── sections/
 │   │   ├── Navbar.tsx               # Floating dual-card navigation with dropdown menus
@@ -24,10 +24,9 @@ src/
 │   │
 │   ├── journey/
 │   │   ├── JourneyPath.tsx          # Continuous SVG river path with GSAP ScrollTrigger stroke drawing
-│   │   ├── LevelCard.tsx            # Alternating milestone row with illustrations & lab/bench drawers
+│   │   ├── LevelCard.tsx            # Alternating milestone row with illustrations & lab drawer
 │   │   ├── LevelToys.tsx            # 10 interactive hands-on simulators awarding real-time XP
-│   │   ├── LevelProps.tsx           # Isometric SVG props for each milestone level
-│   │   └── CommunityBench.tsx       # Live Q&A peer troubleshooting drawer
+│   │   └── LevelProps.tsx           # Isometric SVG props for each milestone level
 │   │
 │   └── ui/
 │       ├── BrandLogo.tsx            # Official Teklozy shield emblem & wordmark
@@ -37,10 +36,10 @@ src/
 │   └── useTeklozyJourney.ts         # Centralized Lenis smooth scroll ticker & navigation helper
 │
 ├── data/
-│   └── journeyConfig.ts             # Single source of truth for the 10 milestone levels & questions
+│   └── journeyConfig.ts             # Single source of truth for the 10 milestone levels
 │
 ├── types/
-│   └── journey.ts                   # Domain TypeScript interfaces (Level, FeatureNode, BenchQuestion)
+│   └── journey.ts                   # Domain TypeScript interfaces (Level, FeatureNode)
 │
 ├── assets/
 │   ├── images/                      # Emblem and brand raster images
@@ -61,12 +60,12 @@ src/
 ### Journey Configuration (`src/data/journeyConfig.ts`)
 - Serves as the **single source of truth** for all 10 stages (`LEVELS`).
 - Each level defines its stage badge, headline, overview copy, 3 key features, hex accent, mascot dialogue bubble, and associated simulator key (`LevelToy`).
-- Includes mock community bench troubleshooting questions (`COMMUNITY_QUESTIONS`) and diagnostic career profiles.
+- Includes diagnostic career profiles and security testing sample data.
 
 ### Animation System
 - **Smooth Virtual Scrolling**: Managed via [Lenis](https://github.com/darkroomengineering/lenis) configured with a duration of 1.2s and smooth wheel dampening.
 - **GSAP Synchronization**: Lenis updates are piped directly to `ScrollTrigger.update`, with `gsap.ticker` driving Lenis requestAnimationFrame calls (`lenis.raf(time * 1000)`).
-- **Scroll-Drawn Stroke**: [`JourneyPath.tsx`](src/components/journey/JourneyPath.tsx) computes the total length of the continuous SVG path, setting `strokeDasharray` and scrubbing `strokeDashoffset` from 100% to 0% as the user traverses the spotlight section.
+- **Scroll-Drawn Stroke**: [`JourneyPath.tsx`](src/components/journey/JourneyPath.tsx) computes the total length of the continuous SVG path, setting `strokeDasharray` and scrubbing `strokeDashoffset` from 100% to 0% as the user traverses the spotlight section. Includes responsive window resize recalculation and clean lifecycle teardown.
 
 ---
 
@@ -78,6 +77,9 @@ npm install
 
 # Start local development server (with HMR)
 npm run dev
+
+# Run automated unit & regression test suite
+npm test
 
 # Run ESLint validation
 npm run lint

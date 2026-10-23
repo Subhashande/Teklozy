@@ -15,6 +15,7 @@ interface JourneyPathProps {
 /**
  * Continuous SVG Scroll River Path Component
  * Draws itself responsively as the user scrolls through the 10 milestone levels.
+ * Handles resize events, ScrollTrigger refreshes, and clean teardown.
  */
 export const JourneyPath: React.FC<JourneyPathProps> = ({ containerRef }) => {
   const pathRef = useRef<SVGPathElement>(null);
@@ -25,7 +26,7 @@ export const JourneyPath: React.FC<JourneyPathProps> = ({ containerRef }) => {
     const container = containerRef.current;
     if (!path || !container) return;
 
-    const pathLength = path.getTotalLength();
+    let pathLength = path.getTotalLength();
     gsap.set(path, {
       strokeDasharray: pathLength,
       strokeDashoffset: pathLength,
@@ -42,7 +43,17 @@ export const JourneyPath: React.FC<JourneyPathProps> = ({ containerRef }) => {
       },
     });
 
+    const handleResize = () => {
+      if (!path) return;
+      pathLength = path.getTotalLength();
+      gsap.set(path, { strokeDasharray: pathLength });
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
+      window.removeEventListener('resize', handleResize);
       trigger.kill();
     };
   }, [containerRef]);

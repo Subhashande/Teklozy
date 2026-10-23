@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight, ArrowUp } from 'lucide-react';
+import React from 'react';
+import { ArrowUp } from 'lucide-react';
 
 interface FooterProps {
   onBackToTop?: () => void;
@@ -9,28 +9,14 @@ interface FooterProps {
 
 /**
  * Statement Footer Component
- * 4-column layout matching reference design with faint watermark, company links,
- * external socials, interactive newsletter subscription capsule, and legal bar.
+ * 3-column layout matching reference design with faint watermark, company curriculum links,
+ * external socials with directional arrows, and bottom legal / back-to-top bar.
  */
 export const Footer: React.FC<FooterProps> = ({
   onBackToTop,
   onNavigateToLevel,
   brandName = 'Teklozy',
 }) => {
-  const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setIsSubscribed(true);
-      setTimeout(() => {
-        setIsSubscribed(false);
-        setEmail('');
-      }, 3500);
-    }
-  };
-
   const handleScrollTop = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onBackToTop) {
@@ -66,10 +52,10 @@ export const Footer: React.FC<FooterProps> = ({
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6 sm:px-8">
-        {/* 4-Column Main Layout */}
+        {/* 3-Column Clean Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-16 border-b border-slate-200/80">
-          {/* Column 1: Brand Info (Span 4) */}
-          <div className="lg:col-span-4 space-y-4">
+          {/* Column 1: Brand Info (Span 6) */}
+          <div className="lg:col-span-6 space-y-4">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-[#0066FF] flex items-center justify-center text-white shadow-sm shrink-0">
                 <svg
@@ -90,8 +76,8 @@ export const Footer: React.FC<FooterProps> = ({
               </span>
             </div>
 
-            <p className="text-sm text-[#64748B] max-w-xs leading-relaxed font-normal">
-              Strategic web design, and campaigns tailored to drive result and conversions.
+            <p className="text-sm text-[#64748B] max-w-sm leading-relaxed font-normal">
+              Strategic career ecosystems, and 10-stage gamified roadmaps tailored to drive tech mastery and career conversion.
             </p>
           </div>
 
@@ -157,8 +143,8 @@ export const Footer: React.FC<FooterProps> = ({
             </ul>
           </div>
 
-          {/* Column 3: Socials (Span 2) */}
-          <div className="lg:col-span-2 space-y-3">
+          {/* Column 3: Socials (Span 3) */}
+          <div className="lg:col-span-3 space-y-3">
             <h4 className="text-[15px] font-semibold text-[#0F172A] tracking-tight">
               Socials
             </h4>
@@ -201,43 +187,6 @@ export const Footer: React.FC<FooterProps> = ({
                 </a>
               </li>
             </ul>
-          </div>
-
-          {/* Column 4: Newsletter (Span 3) */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-[15px] font-semibold text-[#0F172A] tracking-tight">
-              Newsletter
-            </h4>
-            <p className="text-sm text-[#64748B] leading-relaxed">
-              Stay ahead with design & marketing tips and strategies that drive results.
-            </p>
-
-            {isSubscribed ? (
-              <div className="p-3 bg-emerald-50 text-emerald-800 rounded-full text-xs font-bold text-center border border-emerald-200">
-                Subscribed! Welcome aboard.
-              </div>
-            ) : (
-              <form onSubmit={handleSubscribe} className="relative mt-2">
-                <div className="flex items-center bg-white rounded-full border border-slate-200/90 pl-4 pr-1.5 py-1.5 shadow-xs focus-within:border-[#0066FF] focus-within:ring-2 focus-within:ring-[#0066FF]/20 transition-all">
-                  <span className="text-[#94A3B8] text-sm font-semibold mr-2 select-none">@</span>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email..."
-                    className="w-full bg-transparent text-xs sm:text-sm text-[#1E293B] placeholder-[#94A3B8] outline-none"
-                  />
-                  <button
-                    type="submit"
-                    aria-label="Subscribe to newsletter"
-                    className="w-9 h-9 rounded-full bg-[#0066FF] hover:bg-[#0052CC] text-white flex items-center justify-center shrink-0 shadow-sm transition-all hover:scale-105 active:scale-95"
-                  >
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </form>
-            )}
           </div>
         </div>
 
