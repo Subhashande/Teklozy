@@ -1,12 +1,11 @@
 import React from 'react';
 
-export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accent }) => {
+export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id }) => {
   switch (id) {
     case 1:
       // Level 1: Career Awareness — Compass, 5-Way Crossroads Sign, Route Map
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Adventurer's Precision Compass */}
           <div className="prop absolute right-[15vw] top-[22vh]">
             <svg width="180" height="180" viewBox="0 0 160 160" fill="none">
               <circle cx="80" cy="80" r="72" fill="#FFFFFF" stroke="#0F172A" strokeWidth="6" />
@@ -19,20 +18,16 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: 5-Way Career Crossroads Signpost */}
           <div className="prop absolute right-[30vw] top-[48vh]">
             <svg width="150" height="160" viewBox="0 0 130 150" fill="none">
               <rect x="58" y="20" width="14" height="130" rx="4" fill="#0F172A" />
-              {/* Sign 1: Frontend */}
               <polygon points="20,28 94,28 108,40 94,52 20,52" fill="#0088E0" stroke="#0F172A" strokeWidth="3.5" />
               <text x="58" y="44" textAnchor="middle" fill="#FFFFFF" fontWeight="bold" fontSize="10">FRONTEND</text>
-              {/* Sign 2: Backend */}
               <polygon points="110,64 36,64 22,76 36,88 110,88" fill="#FFFFFF" stroke="#0F172A" strokeWidth="3.5" />
               <text x="68" y="80" textAnchor="middle" fill="#0F172A" fontWeight="bold" fontSize="10">BACKEND</text>
             </svg>
           </div>
 
-          {/* Prop 3: Rolled Parchment Diagnostic Map */}
           <div className="prop absolute right-[9vw] top-[52vh]">
             <svg width="150" height="130" viewBox="0 0 140 120" fill="none">
               <path d="M 20 20 Q 70 10 120 20 L 115 100 Q 65 90 15 100 Z" fill="#FFFFFF" stroke="#0F172A" strokeWidth="4" />
@@ -45,10 +40,9 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       );
 
     case 2:
-      // Level 2: Learning & Practice — YouTube Source, Crossed Blades, Commit Grid, Streak Flame
+      // Level 2: Learning & Practice — YouTube Source, Streak Flame
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Streak Flame */}
           <div className="prop absolute right-[17vw] top-[18vh]">
             <svg width="160" height="180" viewBox="0 0 140 160" fill="none">
               <path d="M 70 145 C 30 145, 10 105, 35 65 C 45 90, 65 95, 60 45 C 80 75, 115 85, 110 115 C 105 135, 90 145, 70 145 Z" fill="#2563EB" stroke="#0F172A" strokeWidth="5" />
@@ -57,7 +51,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: YouTube Video Source Card */}
           <div className="prop absolute right-[29vw] top-[46vh]">
             <svg width="150" height="110" viewBox="0 0 140 100" fill="none">
               <rect x="10" y="10" width="120" height="80" rx="20" fill="#0F172A" stroke="#0088E0" strokeWidth="4" />
@@ -66,7 +59,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: GitHub Blue Commit Matrix */}
           <div className="prop absolute right-[10vw] top-[50vh]">
             <svg width="160" height="140" viewBox="0 0 150 130" fill="none">
               <g transform="rotate(10 75 65)">
@@ -83,10 +75,9 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       );
 
     case 3:
-      // Level 3: Advanced Learning & Complete Ecosystem — Architecture Cube, Neural Chip
+      // Level 3: Complete Ecosystem — Architecture Cube, Neural Chip
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Complete Ecosystem Isometric Cube */}
           <div className="prop absolute right-[17vw] top-[22vh]">
             <svg width="170" height="170" viewBox="0 0 160 160" fill="none">
               <polygon points="80,20 140,55 80,90 20,55" fill="#0088E0" stroke="#0F172A" strokeWidth="4" />
@@ -96,7 +87,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: Neural Architecture Processor */}
           <div className="prop absolute right-[28vw] top-[48vh]">
             <svg width="150" height="140" viewBox="0 0 140 130" fill="none">
               <rect x="25" y="25" width="90" height="80" rx="14" fill="#0F172A" stroke="#0088E0" strokeWidth="4" />
@@ -109,7 +99,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: Floating Skill Prism */}
           <div className="prop absolute right-[9vw] top-[52vh]">
             <svg width="130" height="130" viewBox="0 0 120 120" fill="none">
               <polygon points="60,15 105,45 105,85 60,110 15,85 15,45" fill="#FFFFFF" stroke="#0F172A" strokeWidth="4" />
@@ -121,10 +110,9 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       );
 
     case 4:
-      // Level 4: Build like a startup — Startup Booster, Jira Sprint Sheet, Blueprint
+      // Level 4: Build like a startup — Startup Booster, Jira Sprint Sheet
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Startup Booster Rocket */}
           <div className="prop absolute right-[16vw] top-[20vh]">
             <svg width="170" height="190" viewBox="0 0 150 170" fill="none">
               <g transform="rotate(-28 75 85)">
@@ -137,7 +125,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: Jira Task Board Card */}
           <div className="prop absolute right-[28vw] top-[48vh]">
             <svg width="150" height="120" viewBox="0 0 140 110" fill="none">
               <rect x="15" y="15" width="110" height="80" rx="14" fill="#FFFFFF" stroke="#0F172A" strokeWidth="4" />
@@ -148,7 +135,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: SDLC Blueprint Card */}
           <div className="prop absolute right-[9vw] top-[52vh]">
             <svg width="140" height="130" viewBox="0 0 130 120" fill="none">
               <rect x="15" y="15" width="100" height="90" rx="10" fill="#0F172A" stroke="#0088E0" strokeWidth="4" />
@@ -161,10 +147,9 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       );
 
     case 5:
-      // Level 5: Scaling & Deployment — Cloud Server, Autonomous AI Test Drone, Green Shield
+      // Level 5: Scaling & Deployment — Cloud Server, Autonomous AI Test Drone
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: AI Test Drone */}
           <div className="prop absolute right-[17vw] top-[18vh]">
             <svg width="170" height="150" viewBox="0 0 160 140" fill="none">
               <circle cx="80" cy="70" r="34" fill="#FFFFFF" stroke="#0F172A" strokeWidth="4" />
@@ -176,7 +161,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: 48/48 Green Pass Shield */}
           <div className="prop absolute right-[28vw] top-[46vh]">
             <svg width="140" height="150" viewBox="0 0 120 130" fill="none">
               <path d="M 60 15 L 100 30 L 100 80 Q 60 115 60 115 Q 20 80 20 80 L 20 30 Z" fill="#0F172A" stroke="#0088E0" strokeWidth="4" />
@@ -184,7 +168,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: Cloud Cluster Server */}
           <div className="prop absolute right-[9vw] top-[50vh]">
             <svg width="140" height="150" viewBox="0 0 120 130" fill="none">
               <rect x="20" y="20" width="80" height="95" rx="10" fill="#0F172A" stroke="#CBD5E1" strokeWidth="4" />
@@ -200,10 +183,9 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       );
 
     case 6:
-      // Level 6: Look hireable — Magnifying Glass, Verified Portfolio, Signed Offer
+      // Level 6: Look hireable — Magnifying Glass, Verified Portfolio
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Magnifying Glass */}
           <div className="prop absolute right-[18vw] top-[22vh]">
             <svg width="160" height="160" viewBox="0 0 140 140" fill="none">
               <circle cx="55" cy="55" r="42" fill="#F0F9FF" stroke="#0F172A" strokeWidth="6" />
@@ -213,7 +195,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: 96% Profile Strength Meter */}
           <div className="prop absolute right-[28vw] top-[50vh]">
             <svg width="140" height="140" viewBox="0 0 120 120" fill="none">
               <circle cx="60" cy="60" r="48" stroke="#E2E8F0" strokeWidth="10" />
@@ -222,7 +203,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: Signed Offer Letter Parchment */}
           <div className="prop absolute right-[9vw] top-[52vh]">
             <svg width="130" height="140" viewBox="0 0 110 120" fill="none">
               <rect x="15" y="15" width="80" height="95" rx="8" fill="#FFFFFF" stroke="#0F172A" strokeWidth="4" />
@@ -236,10 +216,9 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       );
 
     case 7:
-      // Level 7: Interview Prep — Studio Spotlight, Stopwatch, Vocal Waves
+      // Level 7: Interview Prep — Stopwatch, Speech Waveform, Rubric
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Countdown Stopwatch */}
           <div className="prop absolute right-[18vw] top-[20vh]">
             <svg width="160" height="180" viewBox="0 0 140 160" fill="none">
               <circle cx="70" cy="90" r="54" fill="#FFFFFF" stroke="#0F172A" strokeWidth="6" />
@@ -250,7 +229,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: Audio Speech Waveform */}
           <div className="prop absolute right-[28vw] top-[48vh]">
             <svg width="150" height="90" viewBox="0 0 130 80" fill="none">
               <line x1="15" y1="40" x2="15" y2="40" stroke="#0088E0" strokeWidth="6" strokeLinecap="round" />
@@ -262,7 +240,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: 1:1 Scoring Rubric */}
           <div className="prop absolute right-[9vw] top-[50vh]">
             <svg width="130" height="140" viewBox="0 0 110 120" fill="none">
               <rect x="15" y="15" width="80" height="95" rx="8" fill="#FFFFFF" stroke="#0F172A" strokeWidth="4" />
@@ -277,7 +254,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       // Level 8: Opportunity Ecosystem — Anti-Scam Radar Shield, Briefcase
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Fake-Job Radar Shield */}
           <div className="prop absolute right-[18vw] top-[20vh]">
             <svg width="170" height="170" viewBox="0 0 150 150" fill="none">
               <path d="M 75 15 L 125 35 L 125 90 Q 75 135 75 135 Q 25 90 25 90 L 25 35 Z" fill="#FFFFFF" stroke="#0F172A" strokeWidth="5" />
@@ -287,7 +263,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: Verified Opportunity Briefcase */}
           <div className="prop absolute right-[28vw] top-[50vh]">
             <svg width="150" height="120" viewBox="0 0 130 100" fill="none">
               <rect x="15" y="30" width="100" height="60" rx="10" fill="#0F172A" stroke="#0088E0" strokeWidth="4" />
@@ -296,7 +271,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: Grant & Scholarship Seal */}
           <div className="prop absolute right-[9vw] top-[52vh]">
             <svg width="130" height="150" viewBox="0 0 110 130" fill="none">
               <circle cx="55" cy="45" r="30" fill="#0088E0" stroke="#0F172A" strokeWidth="4" />
@@ -308,10 +282,9 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       );
 
     case 9:
-      // Level 9: Alumni Connect — Global Network Globe, Paper Plane, Mentor Badge
+      // Level 9: Alumni Connect — Connected Globe, Paper Plane, Handshake
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Connected Alumni Globe */}
           <div className="prop absolute right-[18vw] top-[20vh]">
             <svg width="170" height="170" viewBox="0 0 150 150" fill="none">
               <circle cx="75" cy="75" r="62" fill="#F0F9FF" stroke="#0F172A" strokeWidth="5" />
@@ -323,7 +296,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: Intro Request Paper Plane */}
           <div className="prop absolute right-[28vw] top-[48vh]">
             <svg width="150" height="120" viewBox="0 0 130 100" fill="none">
               <polygon points="15,45 115,20 65,85" fill="#FFFFFF" stroke="#0F172A" strokeWidth="4" />
@@ -331,7 +303,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: Handshake Guild Badge */}
           <div className="prop absolute right-[9vw] top-[50vh]">
             <svg width="130" height="140" viewBox="0 0 110 120" fill="none">
               <circle cx="55" cy="55" r="42" fill="#FFFFFF" stroke="#0F172A" strokeWidth="4" />
@@ -342,10 +313,9 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       );
 
     case 10:
-      // Level 10: Champion — Grand Victory Trophy with Teklozy Wing Crest, Laurel Crown
+      // Level 10: Champion — Grand Victory Trophy
       return (
         <div className="relative w-full h-full pointer-events-none">
-          {/* Prop 1: Massive Champion Trophy */}
           <div className="prop absolute right-[18vw] top-[14vh]">
             <svg width="220" height="240" viewBox="0 0 180 200" fill="none">
               <path d="M 50 30 H 130 V 90 C 130 125, 115 140, 90 145 C 65 140, 50 125, 50 90 Z" fill="#0088E0" stroke="#0F172A" strokeWidth="6" />
@@ -357,7 +327,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 2: Laurel Wreath */}
           <div className="prop absolute right-[32vw] top-[46vh]">
             <svg width="150" height="150" viewBox="0 0 130 130" fill="none">
               <path d="M 35 95 C 15 70, 20 35, 45 25" stroke="#0088E0" strokeWidth="5" fill="none" strokeLinecap="round" />
@@ -366,7 +335,6 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
             </svg>
           </div>
 
-          {/* Prop 3: Sunburst Rays */}
           <div className="prop absolute right-[9vw] top-[50vh]">
             <svg width="150" height="150" viewBox="0 0 130 130" fill="none">
               <g transform="translate(65,65)">
@@ -385,3 +353,5 @@ export const LevelProps: React.FC<{ id: number; accent: string }> = ({ id, accen
       return null;
   }
 };
+
+export default LevelProps;

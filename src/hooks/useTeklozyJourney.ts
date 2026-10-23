@@ -1,127 +1,75 @@
-import { useState, RefObject } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-import { JOURNEY_LEVELS } from '../data/journeyConfig';
+import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface UseTeklozyJourneyProps {
-  containerRef: RefObject<HTMLDivElement | null>;
-  drawPathRef: RefObject<SVGPathElement | null>;
-  explorerGroupRef: RefObject<SVGGElement | null>;
-  isMobile: boolean;
-  prefersReducedMotion: boolean;
-}
+/**
+ * useTeklozyJourney Hook
+ * Manages Lenis smooth scroll lifecycle, synchronization with GSAP ticker,
+ * and programmatic smooth scroll navigation.
+ */
+export function useTeklozyJourney() {
+  const lenisRef = useRef<Lenis | null>(null);
+  const [activeLevelId, setActiveLevelId] = useState<number>(1);
+  const [showClaimModal, setShowClaimModal] = useState<boolean>(false);
 
-export function useTeklozyJourney({
-  containerRef,
-  drawPathRef,
-  explorerGroupRef,
-  isMobile,
-  prefersReducedMotion,
-}: UseTeklozyJourneyProps) {
-  const [masterProgress, setMasterProgress] = useState<number>(0);
-  const [activeLevel, setActiveLevel] = useState<number>(1);
-  const [explorerDirection, setExplorerDirection] = useState<'left' | 'right'>('right');
+  // Setup Lenis Smooth Scroll and connect to GSAP ticker
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+    });
+    lenisRef.current = lenis;
 
-  useGSAP(
-    () => {
-      const container = containerRef.current;
-      const pathEl = drawPathRef.current;
-      const explorerEl = explorerGroupRef.current;
+    lenis.on('scroll', ScrollTrigger.update);
 
-      if (!container || !pathEl || !explorerEl) return;
+    const tickerCallback = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(0);
 
-      const totalLength = pathEl.getTotalLength();
+    return () => {
+      gsap.ticker.remove(tickerCallback);
+      lenis.destroy();
+    };
+  }, []);
 
-      // Reduced motion fallback: reveal full route immediately without pinning or scrubbing character
-      if (prefersReducedMotion) {
-        gsap.set(pathEl, { strokeDasharray: totalLength, strokeDashoffset: 0 });
-        const startPt = pathEl.getPointAtLength(0);
-        gsap.set(explorerEl, { x: startPt.x, y: startPt.y });
-        return;
-      }
-
-      // Initialize stroke-dasharray and stroke-dashoffset so path draws progressively
-      gsap.set(pathEl, {
-        strokeDasharray: totalLength,
-        strokeDashoffset: totalLength,
+  // Programmatically scroll smoothly to any level row
+  const scrollToLevel = useCallback((id: number) => {
+    const targetEl = document.getElementById(`level-row-${id}`);
+    if (targetEl && lenisRef.current) {
+      lenisRef.current.scrollTo(targetEl, {
+        offset: -80,
+        duration: 1.2,
       });
-
-      const initialPt = pathEl.getPointAtLength(0);
-      gsap.set(explorerEl, {
-        x: initialPt.x,
-        y: initialPt.y,
-        xPercent: -50,
-        yPercent: -80,
-      });
-
-      const progressProxy = { value: 0 };
-
-      gsap.to(progressProxy, {
-        value: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: container,
-          start: 'top 28%',
-          end: 'bottom 72%',
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const prog = self.progress;
-            const currentLength = prog * totalLength;
-
-            // 1. Synchronize SVG Path Drawing
-            gsap.set(pathEl, {
-              strokeDashoffset: totalLength - currentLength,
-            });
-
-            // 2. Synchronize Explorer Position & Subtle Orientation along the curve
-            const point = pathEl.getPointAtLength(currentLength);
-            const lookAheadLength = Math.min(totalLength, currentLength + 12);
-            const nextPoint = pathEl.getPointAtLength(lookAheadLength);
-
-            const dx = nextPoint.x - point.x;
-            const dy = nextPoint.y - point.y;
-            // Subtle tilt clamped between -10deg and 10deg so Byte remains upright & readable
-            const rawAngle = Math.atan2(dy, Math.abs(dx)) * (180 / Math.PI);
-            const clampedTilt = Math.max(-10, Math.min(10, rawAngle * 0.25));
-
-            gsap.set(explorerEl, {
-              x: point.x,
-              y: point.y,
-              rotation: clampedTilt,
-            });
-
-            if (Math.abs(dx) > 0.4) {
-              setExplorerDirection(dx >= 0 ? 'right' : 'left');
-            }
-
-            // 3. Synchronize Active Milestone Level (1 through 10)
-            let currentActive = 1;
-            for (const lvl of JOURNEY_LEVELS) {
-              if (prog >= lvl.progressThreshold - 0.04) {
-                currentActive = lvl.level;
-              }
-            }
-
-            setMasterProgress(prog);
-            setActiveLevel(currentActive);
-          },
-        },
-      });
-    },
-    {
-      scope: containerRef,
-      dependencies: [isMobile, prefersReducedMotion],
-      revertOnUpdate: true,
     }
-  );
+  }, []);
+
+  // Programmatically scroll smoothly to top
+  const scrollToTop = useCallback(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, []);
 
   return {
-    masterProgress,
-    activeLevel,
-    explorerDirection,
+    lenisRef,
+    activeLevelId,
+    setActiveLevelId,
+    scrollToLevel,
+    scrollToTop,
+    showClaimModal,
+    setShowClaimModal,
   };
 }
+
+export default useTeklozyJourney;

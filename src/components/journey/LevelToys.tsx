@@ -8,14 +8,9 @@ import {
 import {
   Check,
   Flame,
-  Star,
   Rocket,
-  ShieldCheck,
-  AlertTriangle,
   Sparkles,
   PhoneCall,
-  GitBranch,
-  Laptop,
 } from 'lucide-react';
 
 interface ToyProps {
@@ -27,7 +22,6 @@ interface ToyProps {
 
 export const LevelToy: React.FC<ToyProps> = ({
   levelId,
-  accent,
   onUpdateAccent,
   onAddXp,
 }) => {
@@ -37,9 +31,6 @@ export const LevelToy: React.FC<ToyProps> = ({
   // Toy 2: 30-Day Streak Grid
   const [activeDays, setActiveDays] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
   const [streakCount, setStreakCount] = useState(12);
-
-  // Toy 3: Complete Ecosystem Skill Tree
-  const [activeSkills, setActiveSkills] = useState<string[]>(['react', 'ts']);
 
   // Toy 4: Real-world Startup Jira Ticket
   const [ticketStatus, setTicketStatus] = useState<'todo' | 'progress' | 'done'>('todo');
@@ -81,9 +72,7 @@ export const LevelToy: React.FC<ToyProps> = ({
   }, [isCalling]);
 
   switch (levelId) {
-    // =========================================================================
     // LEVEL 1: CAREER AWARENESS & CLASS PICKER
-    // =========================================================================
     case 1:
       return (
         <div className="reveal tk-card p-4 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A]">
@@ -123,9 +112,7 @@ export const LevelToy: React.FC<ToyProps> = ({
         </div>
       );
 
-    // =========================================================================
-    // LEVEL 2: LEARNING & 30-DAY STREAK (YouTube, GitHub, LeetCode)
-    // =========================================================================
+    // LEVEL 2: LEARNING & 30-DAY STREAK
     case 2:
       return (
         <div className="reveal tk-card p-4 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A]">
@@ -170,9 +157,7 @@ export const LevelToy: React.FC<ToyProps> = ({
         </div>
       );
 
-    // =========================================================================
-    // LEVEL 3: ADVANCED LEARNING & COMPLETE ECOSYSTEM
-    // =========================================================================
+    // LEVEL 3: COMPLETE ECOSYSTEM
     case 3:
       return (
         <div className="reveal tk-card p-4 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A]">
@@ -216,9 +201,7 @@ export const LevelToy: React.FC<ToyProps> = ({
         </div>
       );
 
-    // =========================================================================
     // LEVEL 4: REAL-WORLD STARTUP & SDLC JIRA OPERATIONS
-    // =========================================================================
     case 4:
       return (
         <div className="reveal tk-card p-4 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A]">
@@ -270,9 +253,7 @@ export const LevelToy: React.FC<ToyProps> = ({
         </div>
       );
 
-    // =========================================================================
     // LEVEL 5: SCALING & AUTONOMOUS AI TESTING AGENT
-    // =========================================================================
     case 5:
       return (
         <div className="reveal tk-card p-4 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A]">
@@ -319,9 +300,7 @@ export const LevelToy: React.FC<ToyProps> = ({
         </div>
       );
 
-    // =========================================================================
-    // LEVEL 6: PROFESSIONAL IDENTITY (Resume, LinkedIn, GitHub, LeetCode, Portfolio)
-    // =========================================================================
+    // LEVEL 6: PROFESSIONAL IDENTITY
     case 6: {
       const completedCount = Object.values(profileChecks).filter(Boolean).length;
       const strengthPercent = Math.round((completedCount / 6) * 100);
@@ -353,9 +332,7 @@ export const LevelToy: React.FC<ToyProps> = ({
       );
     }
 
-    // =========================================================================
-    // LEVEL 7: INTERVIEW PREPARATION (Expert Sessions & 1:1 Mocks)
-    // =========================================================================
+    // LEVEL 7: INTERVIEW PREPARATION
     case 7:
       return (
         <div className="reveal tk-card p-4 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A]">
@@ -392,9 +369,7 @@ export const LevelToy: React.FC<ToyProps> = ({
         </div>
       );
 
-    // =========================================================================
     // LEVEL 8: OPPORTUNITIES & FAKE JOB DETECTION SHIELD
-    // =========================================================================
     case 8:
       return (
         <div className="reveal tk-card p-4 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A]">
@@ -442,9 +417,7 @@ export const LevelToy: React.FC<ToyProps> = ({
         </div>
       );
 
-    // =========================================================================
     // LEVEL 9: ALUMNI CONNECT GUILD
-    // =========================================================================
     case 9:
       return (
         <div className="reveal tk-card p-4 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A]">
@@ -479,9 +452,7 @@ export const LevelToy: React.FC<ToyProps> = ({
         </div>
       );
 
-    // =========================================================================
     // LEVEL 10: CHAMPION
-    // =========================================================================
     case 10:
       return (
         <div className="reveal tk-card p-5 bg-white max-w-sm border-2 border-[#0F172A] shadow-[4px_4px_0_0_#0F172A] text-center">
@@ -512,3 +483,5 @@ export const LevelToy: React.FC<ToyProps> = ({
       return null;
   }
 };
+
+export default LevelToy;

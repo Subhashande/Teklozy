@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { COMMUNITY_QUESTIONS } from '../data/journeyConfig';
+import { COMMUNITY_QUESTIONS } from '../../data/journeyConfig';
 import { MessageSquare, ArrowBigUp, HelpCircle } from 'lucide-react';
 
 interface CommunityBenchProps {
@@ -147,3 +147,5 @@ export const CommunityBench: React.FC<CommunityBenchProps> = ({ levelId, accent 
     </div>
   );
 };
+
+export default CommunityBench;

@@ -41,7 +41,10 @@ body {
   margin: 0;
 }
 
-h1, h2, h3, .font-display {
+h1,
+h2,
+h3,
+.font-display {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
 }
@@ -49,7 +52,7 @@ h1, h2, h3, .font-display {
 /* Reference Landing Page Graph Grid Pattern */
 .tk-grid-bg {
   background-size: 32px 32px;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(219, 234, 254, 0.5) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(219, 234, 254, 0.5) 1px, transparent 1px);
 }
@@ -118,18 +121,24 @@ h1, h2, h3, .font-display {
 
 /* Floating Animations */
 @keyframes floatSlow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-6px);
   }
 }
 
 @keyframes floatGentle {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-4px) rotate(0.5deg);
   }
@@ -140,10 +149,12 @@ h1, h2, h3, .font-display {
     transform: scale(0.95);
     opacity: 0.9;
   }
+
   50% {
     transform: scale(1.3);
     opacity: 0.3;
   }
+
   100% {
     transform: scale(0.95);
     opacity: 0.9;
@@ -154,6 +165,7 @@ h1, h2, h3, .font-display {
   0% {
     stroke-dashoffset: 0;
   }
+
   100% {
     stroke-dashoffset: -40;
   }
@@ -183,35 +195,45 @@ h1, h2, h3, .font-display {
 [data-state='idle'] .byte-svg {
   animation: byteBob 2.4s ease-in-out infinite;
 }
+
 [data-state='run'] .leg-l {
   animation: byteStep 0.26s linear infinite alternate;
   transform-origin: 50% 0;
 }
+
 [data-state='run'] .leg-r {
   animation: byteStep 0.26s linear infinite alternate-reverse;
   transform-origin: 50% 0;
 }
+
 [data-state='run'] .cape {
   animation: byteFlutter 0.24s ease-in-out infinite alternate;
   transform-origin: 100% 0;
 }
+
 [data-state='run'] .byte-svg {
   animation: byteRunBounce 0.26s ease-in-out infinite alternate;
 }
 
 @keyframes byteBob {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-5px);
   }
 }
 
 @keyframes byteRunBounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-3px);
   }
@@ -221,6 +243,7 @@ h1, h2, h3, .font-display {
   from {
     transform: rotate(-26deg);
   }
+
   to {
     transform: rotate(26deg);
   }
@@ -230,6 +253,7 @@ h1, h2, h3, .font-display {
   from {
     transform: rotate(-6deg) scale(0.96);
   }
+
   to {
     transform: rotate(10deg) scale(1.05);
   }

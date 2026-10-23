@@ -1,14 +1,6 @@
-export type Level = {
-  id: number;
-  key: string;
-  title: string;
-  line: string;
-  features: string[];
-  accent: string;
-  bubble: string;
-  toy: string;
-  stageName: string;
-};
+import { Level } from '../types/journey';
+
+export type { Level };
 
 export const TUNABLES = {
   viewBoxWidth: 12000,
