@@ -258,3 +258,146 @@ h3,
     transform: rotate(10deg) scale(1.05);
   }
 }
+
+/* ==========================================================================
+   Hero Section - Immersive Artwork & Reference Gradient
+   ========================================================================== */
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: min(780px, 90svh);
+  overflow: hidden;
+  padding: clamp(32px, 7vw, 104px);
+  color: #fff;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4, 16, 45, 0.72) 0%,
+      rgba(4, 16, 45, 0.28) 18%,
+      transparent 38%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(5, 20, 55, 0.86) 0%,
+      rgba(5, 20, 55, 0.72) 30%,
+      rgba(5, 20, 55, 0.44) 48%,
+      rgba(5, 20, 55, 0.10) 68%,
+      transparent 82%
+    ),
+    url("/herobackground.png") center 55% / cover no-repeat;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 10;
+  width: min(100%, 720px);
+}
+
+.hero__eyebrow {
+  display: block;
+  margin-bottom: 22px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.hero h1 {
+  margin: 0;
+  max-width: 760px;
+  font-size: clamp(42px, 5.5vw, 76px);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.hero h1 span {
+  display: block;
+  color: #63d6ff;
+}
+
+.hero p {
+  max-width: 540px;
+  margin: 24px 0 30px;
+  color: #e0e9ff;
+  font-size: clamp(16px, 1.4vw, 19px);
+  line-height: 1.65;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero__primary,
+.hero__secondary {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hero__primary {
+  color: #fff;
+  background: #0088e0;
+  box-shadow: 0 8px 24px -4px rgba(0, 136, 224, 0.5);
+}
+
+.hero__primary:hover {
+  background: #0077cc;
+  box-shadow: 0 12px 28px -4px rgba(0, 136, 224, 0.65);
+  transform: translateY(-1px);
+}
+
+.hero__secondary {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.hero__secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 760px;
+    align-items: flex-start;
+    padding: 100px 24px 40px;
+    background-position: 65% center;
+  }
+
+  .hero h1 {
+    font-size: clamp(38px, 10.5vw, 54px);
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgba(5, 20, 55, 0.88) 0%,
+      rgba(5, 20, 55, 0.62) 58%,
+      rgba(5, 20, 55, 0.20) 100%
+    );
+  }
+}

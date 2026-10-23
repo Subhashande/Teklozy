@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar } from './components/sections/Navbar';
+import { Header } from './components/sections/Header';
 import { HeroSection } from './components/sections/HeroSection';
 import { JourneySection } from './components/sections/JourneySection';
 import { Footer } from './components/layout/Footer';
@@ -20,8 +20,8 @@ export default function App() {
     <div className="relative min-h-screen bg-[#F7F7F2] text-[#1A1A1A] font-manrope selection:bg-[#0088E0] selection:text-white">
       <h1 className="sr-only">Teklozy — 10-Level Gamified Career Journey</h1>
 
-      {/* 1. Floating Dual-Card Header */}
-      <Navbar
+      {/* 1. Floating Capsule Header */}
+      <Header
         onScrollToLevel={scrollToLevel}
         onOpenClaimModal={() => setShowClaimModal(true)}
       />
