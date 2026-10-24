@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Header } from './components/sections/Header';
 import { HeroSection } from './components/sections/HeroSection';
 import { JourneySection } from './components/sections/JourneySection';
 import { Achivements } from './components/sections/achivements';
 import { Footer } from './components/layout/Footer';
 import { ClaimSpotModal } from './components/ui/ClaimSpotModal';
+import { TeklozyPreloader } from './components/ui/TeklozyPreloader';
 import { useTeklozyJourney } from './hooks/useTeklozyJourney';
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const {
     activeLevelId,
     setActiveLevelId,
@@ -18,8 +20,12 @@ export default function App() {
   } = useTeklozyJourney();
 
   return (
-    <div className="relative min-h-screen bg-[#F7F7F2] text-[#1A1A1A] font-manrope selection:bg-[#0088E0] selection:text-white">
-      <h1 className="sr-only">Teklozy — 10-Level Gamified Career Journey</h1>
+    <>
+      {/* Brand Intro Preloader with GSAP DrawSVG & Fill Animation */}
+      {isLoading && <TeklozyPreloader onComplete={() => setIsLoading(false)} />}
+
+      <div className="relative min-h-screen bg-[#F7F7F2] text-[#1A1A1A] font-manrope selection:bg-[#0088E0] selection:text-white">
+        <h1 className="sr-only">Teklozy — 10-Level Gamified Career Journey</h1>
 
       {/* 1. Floating Capsule Header */}
       <Header
@@ -58,5 +64,6 @@ export default function App() {
         onClose={() => setShowClaimModal(false)}
       />
     </div>
+  </>
   );
 }

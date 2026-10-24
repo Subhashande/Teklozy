@@ -57,16 +57,16 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Left: Company Logo (Teklozy Emblem & Wordmark) */}
           <div
             onClick={() => handleNavClick(1)}
-            className="flex items-center gap-2.5 cursor-pointer select-none group shrink-0"
+            className="flex items-center gap-2.5 sm:gap-3 cursor-pointer select-none group shrink-0"
           >
-            <div className="h-8 w-8 sm:h-8.5 sm:w-8.5 overflow-hidden flex items-start justify-center shrink-0">
+            <div className="h-9 w-9 sm:h-10 sm:w-10 overflow-hidden flex items-start justify-center shrink-0">
               <img
                 src={logoPng}
                 alt="Teklozy Emblem"
-                className="w-full h-[150%] object-contain filter drop-shadow-[0_2px_8px_rgba(0,136,224,0.35)] transition-transform duration-200 group-hover:scale-105"
+                className="w-full h-[150%] object-contain filter drop-shadow-[0_2px_10px_rgba(0,136,224,0.45)] transition-transform duration-200 group-hover:scale-105"
               />
             </div>
-            <span className="font-display font-extrabold text-xl sm:text-2xl text-white tracking-tight">
+            <span className="font-display font-extrabold text-2xl sm:text-[1.65rem] text-white tracking-tight">
               Tek<span className="text-[#0088E0]">lozy</span>
             </span>
           </div>
