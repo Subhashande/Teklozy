@@ -1,5 +1,7 @@
 import React from 'react';
 import { ArrowUp } from 'lucide-react';
+import logoPng from '../../assets/images/erasebg-teklozy.png';
+
 
 interface FooterProps {
   onBackToTop?: () => void;
@@ -34,17 +36,6 @@ export const Footer: React.FC<FooterProps> = ({
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none pointer-events-none flex items-center justify-center gap-8 w-full max-w-7xl z-0 opacity-100"
       >
         <div className="flex items-center gap-6 text-[#0066FF]/[0.035] font-display font-black tracking-tight whitespace-nowrap">
-          <svg
-            className="w-[14vw] h-[14vw] max-w-[180px] max-h-[180px] text-[#0066FF]/[0.035]"
-            viewBox="0 0 100 100"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="8"
-          >
-            <circle cx="50" cy="50" r="42" />
-            <path d="M50 20 A30 30 0 0 1 80 50" strokeWidth="12" strokeLinecap="round" />
-            <circle cx="50" cy="50" r="14" fill="currentColor" stroke="none" />
-          </svg>
           <span className="text-[14vw] leading-none select-none">
             {brandName}
           </span>
@@ -57,19 +48,12 @@ export const Footer: React.FC<FooterProps> = ({
           {/* Column 1: Brand Info (Span 6) */}
           <div className="lg:col-span-6 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#0066FF] flex items-center justify-center text-white shadow-sm shrink-0">
-                <svg
-                  className="w-4 h-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="m10 8 4 4-4 4" />
-                </svg>
+              <div className="w-8 h-8 flex items-center justify-center text-white shadow-sm shrink-0">
+                <img
+                src={logoPng}
+                alt="Teklozy Emblem"
+                className="w-full h-[100%] object-contain filter drop-shadow-[0_2px_8px_rgba(0,136,224,0.35)] transition-transform duration-200 group-hover:scale-105"
+              />
               </div>
               <span className="font-display font-extrabold text-xl text-[#0F172A] tracking-tight">
                 {brandName}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Header } from './components/sections/Header';
 import { HeroSection } from './components/sections/HeroSection';
 import { JourneySection } from './components/sections/JourneySection';
+import { Achivements } from './components/sections/achivements';
 import { Footer } from './components/layout/Footer';
 import { ClaimSpotModal } from './components/ui/ClaimSpotModal';
 import { useTeklozyJourney } from './hooks/useTeklozyJourney';
@@ -41,7 +42,10 @@ export default function App() {
         onOpenClaimModal={() => setShowClaimModal(true)}
       />
 
-      {/* 4. 4-Column Statement Footer with Watermark */}
+      {/* 4. Alumni Achievements & Testimonial Inspirations Infinite 3D Carousel */}
+      <Achivements onOpenClaimModal={() => setShowClaimModal(true)} />
+
+      {/* 5. 4-Column Statement Footer with Watermark */}
       <Footer
         brandName="Teklozy"
         onBackToTop={scrollToTop}
