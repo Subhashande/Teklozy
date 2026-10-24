@@ -94,7 +94,7 @@ export const LevelCard: React.FC<LevelCardProps> = ({
   index,
   levelImage,
 }) => {
-  const isImageLeft = index % 2 === 0;
+  const isImageLeft = index % 2 !== 0;
   const articleRef = useRef<HTMLElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const visualRef = useRef<HTMLDivElement>(null);
@@ -107,38 +107,56 @@ export const LevelCard: React.FC<LevelCardProps> = ({
     if (!article || !info || !visual) return;
 
     const ctx = gsap.context(() => {
+      // Trigger image appearance precisely when the path connects into this level row
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: article,
-          start: 'top 82%',
+          start: 'top 60%',
           toggleActions: 'play none none reverse',
         },
       });
 
+      // 1. 3D Illustration emerges with organic spring when path connects
       tl.fromTo(
         visual,
         {
           opacity: 0,
-          y: 45,
-          scale: 0.94,
+          scale: 0.78,
+          y: 40,
+          filter: 'blur(8px)',
         },
         {
           opacity: 1,
-          y: 0,
           scale: 1,
+          y: 0,
+          filter: 'blur(0px)',
           duration: 0.85,
-          ease: 'power2.out',
+          ease: 'back.out(1.4)',
         }
-      ).fromTo(
+      );
+
+      // 2. Milestone Number Node Springs In
+      const nodeEl = visual.querySelector('[id^="level-stage-anchor-"]');
+      if (nodeEl) {
+        tl.fromTo(
+          nodeEl,
+          { scale: 0, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.45, ease: 'back.out(2.2)' },
+          '-=0.65'
+        );
+      }
+
+      // 3. Editorial typography slides in smoothly
+      tl.fromTo(
         info,
         {
           opacity: 0,
-          y: 35,
+          y: 30,
         },
         {
           opacity: 1,
           y: 0,
-          duration: 0.75,
+          duration: 0.7,
           ease: 'power2.out',
         },
         '-=0.5'
@@ -185,25 +203,13 @@ export const LevelCard: React.FC<LevelCardProps> = ({
     <article
       ref={articleRef}
       id={`level-row-${lvl.id}`}
-      className={`row relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center ${
-        isImageLeft ? '' : 'lg:grid-flow-dense'
-      }`}
+      className="row relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center"
     >
-      {/* Visual Scene Side: Organic 3D Island & Floating UI Cards */}
-      <div
-        ref={visualRef}
-        className={`w-full ${
-          isImageLeft ? 'lg:col-span-6' : 'lg:col-span-6 lg:col-start-7'
-        }`}
-      >
-        <LevelVisualScene lvl={lvl} index={index} levelImage={levelImage} />
-      </div>
-
       {/* Information Side: Destructured Editorial Typography & Chips */}
       <div
         ref={infoRef}
-        className={`w-full ${
-          isImageLeft ? 'lg:col-span-6' : 'lg:col-span-6 lg:col-start-1'
+        className={`w-full lg:col-span-5 ${
+          isImageLeft ? 'lg:order-2' : 'lg:order-1'
         }`}
       >
         <div className="max-w-xl mx-auto lg:mx-0">
@@ -218,54 +224,57 @@ export const LevelCard: React.FC<LevelCardProps> = ({
           </div>
 
           {/* Main Headline */}
-          <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#111827] tracking-tight leading-[1.15]">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#131209] tracking-tight font-display mb-4 leading-tight">
             {renderTitle()}
-          </h3>
+          </h2>
 
-          {/* Editorial Description */}
-          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
+          {/* Descriptive Subtitle */}
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 font-manrope">
             {lvl.line}
           </p>
 
-          {/* Feature Pill Chips Row */}
-          <div className="flex flex-wrap gap-2.5 sm:gap-3 mt-6">
-            {lvl.chips && lvl.chips.length > 0 ? (
-              lvl.chips.map((chip, cIdx) => {
-                const IconComponent = ICON_MAP[chip.icon] || CheckCircle;
-                return (
-                  <div
-                    key={cIdx}
-                    className="bg-white/95 backdrop-blur-sm border border-slate-200/90 rounded-2xl px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-xs flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 hover:border-blue-300 hover:shadow-sm transition-all"
-                  >
-                    <IconComponent className="w-4 h-4 text-[#0088E0] shrink-0" />
-                    <span>{chip.label}</span>
-                  </div>
-                );
-              })
-            ) : (
-              lvl.features.map((feat, fIdx) => (
+          {/* Interactive Feature Pills */}
+          <div className="flex flex-wrap gap-2.5 mb-8">
+            {lvl.chips?.map((chip, chipIdx) => {
+              const IconComp = ICON_MAP[chip.icon] || Target;
+              return (
                 <div
-                  key={fIdx}
-                  className="bg-white/95 backdrop-blur-sm border border-slate-200/90 rounded-2xl px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-xs flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700"
+                  key={chipIdx}
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/90 border border-slate-200/90 shadow-xs hover:border-blue-400 hover:shadow-sm transition-all"
                 >
-                  <CheckCircle className="w-4 h-4 text-[#0088E0] shrink-0" />
-                  <span>{feat}</span>
+                  <IconComp className="w-4 h-4 text-[#0088E0]" />
+                  <span className="text-xs font-semibold text-slate-700">
+                    {chip.label}
+                  </span>
                 </div>
-              ))
-            )}
+              );
+            })}
           </div>
 
-          {/* Action Call-to-Action Link */}
-          <div className="mt-8">
-            <a
-              href="#explore"
-              className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-[#0088E0] hover:text-[#0070BA] transition-all group"
-            >
-              <span>{lvl.ctaText || 'Explore Careers'}</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1.5" />
-            </a>
-          </div>
+          {/* Action Link */}
+          <button
+            type="button"
+            className="inline-flex items-center gap-2 font-bold text-sm text-[#0088E0] hover:text-[#0077CC] group transition-colors cursor-pointer"
+          >
+            <span>{lvl.ctaText}</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </button>
         </div>
+      </div>
+
+      {/* Visual Scene Side: Organic 3D Landscape & Mascot */}
+      <div
+        ref={visualRef}
+        className={`w-full lg:col-span-7 ${
+          isImageLeft ? 'lg:order-1' : 'lg:order-2'
+        }`}
+      >
+        <LevelVisualScene
+          lvl={lvl}
+          index={index}
+          levelImage={levelImage}
+          isImageLeft={isImageLeft}
+        />
       </div>
     </article>
   );

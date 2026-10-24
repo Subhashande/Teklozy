@@ -4,9 +4,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// 10-Stage S-Curve River Path threading from Stage 1 (left) to Stage 10 (right)
+// 10-Stage S-Curve River Path threading directly through image spaces from Stage 1 (right) to Stage 2 (left) and alternating through all 10 stages
 export const SVG_PATH_D =
-  'M 300 20 L 300 350 C 300 750, 900 750, 900 1150 C 900 1550, 300 1550, 300 1950 C 300 2350, 900 2350, 900 2750 C 900 3150, 300 3150, 300 3550 C 300 3950, 900 3950, 900 4350 C 900 4750, 300 4750, 300 5150 C 300 5550, 900 5550, 900 5950 C 900 6350, 300 6350, 300 6750 C 300 7150, 900 7150, 900 7550 L 900 7800';
+  'M 860 40 L 860 380 C 860 780, 340 780, 340 1180 C 340 1570, 860 1570, 860 1960 C 860 2350, 340 2350, 340 2740 C 340 3130, 860 3130, 860 3520 C 860 3910, 340 3910, 340 4300 C 340 4690, 860 4690, 860 5080 C 860 5470, 340 5470, 340 5860 C 340 6250, 860 6250, 860 6640 C 860 7030, 340 7030, 340 7420 L 340 7700';
 
 interface JourneyPathProps {
   containerRef: React.RefObject<HTMLElement | null>;
