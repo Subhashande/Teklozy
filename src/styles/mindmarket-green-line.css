@@ -20,7 +20,7 @@
 .timeline-relative-container {
   position: relative;
   width: 100%;
-  min-height: 5200px;
+  min-height: 100%;
   overflow: hidden;
 }
 
@@ -63,9 +63,5 @@
 
   .timeline-svg-mobile {
     display: block !important;
-  }
-
-  .timeline-relative-container {
-    min-height: 4400px;
   }
 }

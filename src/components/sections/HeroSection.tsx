@@ -118,47 +118,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       {/* 2. Trusted Partners Row & 4 Key Metrics Bar */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 border-b border-slate-200/80">
-        <p className="text-center text-xs font-bold uppercase tracking-wider text-slate-400">
-          Trusted by Thousands of Students & Leading Hiring Partners
-        </p>
-
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-8 sm:gap-14 opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
-          <div className="flex items-center gap-1.5 font-display font-bold text-sm text-slate-800">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#0088E0]" /> Google Cloud
-          </div>
-          <div className="flex items-center gap-1.5 font-display font-bold text-sm text-slate-800">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#2563EB]" /> AWS Guild
-          </div>
-          <div className="flex items-center gap-1.5 font-display font-bold text-sm text-slate-800">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Codecraft Labs
-          </div>
-          <div className="flex items-center gap-1.5 font-display font-bold text-sm text-slate-800">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500" /> VentureBio
-          </div>
-          <div className="flex items-center gap-1.5 font-display font-bold text-sm text-slate-800">
-            <span className="w-2.5 h-2.5 rounded-full bg-purple-500" /> NextGen Startups
-          </div>
-        </div>
-
-        {/* 4 Key Performance Metrics Bar */}
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-white rounded-2xl border border-slate-200/90 p-5 sm:p-6 shadow-sm">
-          <div className="text-center sm:text-left border-r last:border-r-0 border-slate-100 pr-2">
-            <p className="font-display text-2xl sm:text-3xl font-black text-[#131209]">10,000+</p>
-            <p className="text-xs font-medium text-slate-500 mt-0.5">Active Learners</p>
-          </div>
-          <div className="text-center sm:text-left border-r last:border-r-0 border-slate-100 pr-2">
-            <p className="font-display text-2xl sm:text-3xl font-black text-[#0088E0]">$500K+</p>
-            <p className="text-xs font-medium text-slate-500 mt-0.5">Bounties & Scholarships</p>
-          </div>
-          <div className="text-center sm:text-left border-r last:border-r-0 border-slate-100 pr-2">
-            <p className="font-display text-2xl sm:text-3xl font-black text-[#131209]">94%</p>
-            <p className="text-xs font-medium text-slate-500 mt-0.5">Placement Success Rate</p>
-          </div>
-          <div className="text-center sm:text-left">
-            <p className="font-display text-2xl sm:text-3xl font-black text-amber-500">4.9 / 5</p>
-            <p className="text-xs font-medium text-slate-500 mt-0.5">Community Rating</p>
-          </div>
-        </div>
 
         {/* Level Fast-Travel Navigation Bar */}
         <div className="mt-8 w-full max-w-xl mx-auto bg-white rounded-2xl border border-slate-200/90 p-2 shadow-xs flex items-center justify-between gap-1 overflow-x-auto">

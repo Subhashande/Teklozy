@@ -93,7 +93,7 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
       {/* 1. Main Spotlight Section with Continuous SVG Path */}
       <section
         ref={spotlightRef}
-        className="spotlight relative overflow-hidden py-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto flex flex-col gap-24 sm:gap-36"
+        className="spotlight relative py-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto flex flex-col gap-24 sm:gap-36"
       >
         {/* Continuous SVG Background Path */}
         <JourneyPath containerRef={spotlightRef} />

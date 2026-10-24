@@ -1,73 +1,142 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Level } from '../../types/journey';
-import { LevelToy } from './LevelToys';
-import {
-  ArrowRight,
-  Sparkles,
-  Check,
-  ChevronUp,
-} from 'lucide-react';
+import { Check } from 'lucide-react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface LevelCardProps {
   lvl: Level;
   index: number;
   levelImage: string;
-  isExpanded: boolean;
-  isCurrent: boolean;
-  onToggleExpand: (levelId: number) => void;
-  onAddXp: (amount: number) => void;
+  isExpanded?: boolean;
+  isCurrent?: boolean;
+  onToggleExpand?: (levelId: number) => void;
+  onAddXp?: (amount: number) => void;
 }
 
 /**
  * LevelCard Component
- * Displays alternating 2-column milestone row with high-res 3D illustration,
- * curriculum details, and interactive simulator drawer.
+ * Displays alternating 2-column milestone row with high-res 3D illustration
+ * and curriculum details. Enhanced with smooth GSAP entrance reveals and
+ * organic floating illustration physics.
  */
 export const LevelCard: React.FC<LevelCardProps> = ({
   lvl,
   index,
   levelImage,
-  isExpanded,
-  isCurrent,
-  onToggleExpand,
-  onAddXp,
+  isCurrent = false,
 }) => {
   const isImageLeft = index % 2 === 0;
+  const articleRef = useRef<HTMLElement>(null);
+  const imageWrapRef = useRef<HTMLDivElement>(null);
+  const cardWrapRef = useRef<HTMLDivElement>(null);
+
+  // GSAP scroll entrance & continuous gentle floating physics
+  useEffect(() => {
+    const article = articleRef.current;
+    const imgWrap = imageWrapRef.current;
+    const cardWrap = cardWrapRef.current;
+    if (!article || !imgWrap || !cardWrap) return;
+
+    // 1. Entrance reveal tied to ScrollTrigger
+    const entranceCtx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: article,
+          start: 'top 85%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+
+      tl.fromTo(
+        imgWrap,
+        {
+          opacity: 0,
+          y: 45,
+          scale: 0.94,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.85,
+          ease: 'power2.out',
+        }
+      ).fromTo(
+        cardWrap,
+        {
+          opacity: 0,
+          y: 35,
+          scale: 0.98,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.75,
+          ease: 'power2.out',
+        },
+        '-=0.45'
+      );
+
+      // 2. Continuous organic subtle floating physics on 3D island illustration
+      const floatInner = imgWrap.querySelector('.level-floating-island');
+      if (floatInner) {
+        gsap.to(floatInner, {
+          y: -10,
+          duration: 2.8 + (index % 3) * 0.4,
+          yoyo: true,
+          repeat: -1,
+          ease: 'sine.inOut',
+          delay: (index % 3) * 0.25,
+        });
+      }
+    }, article);
+
+    return () => {
+      entranceCtx.revert();
+    };
+  }, [index]);
 
   return (
     <article
+      ref={articleRef}
       id={`level-row-${lvl.id}`}
-      className={`row relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center ${
+      className={`row relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-14 items-center ${
         isImageLeft ? '' : 'lg:grid-flow-dense'
       }`}
     >
-      {/* Image Side: Illustration */}
+      {/* Image Side: 3D Illustration Island */}
       <div
+        ref={imageWrapRef}
         className={`image flex items-center justify-center ${
-          isImageLeft
-            ? 'lg:col-span-6'
-            : 'lg:col-span-6 lg:col-start-7'
+          isImageLeft ? 'lg:col-span-6' : 'lg:col-span-6 lg:col-start-7'
         }`}
       >
         <div className="relative group w-full max-w-[480px]">
-          {/* Subtle soft gradient halo behind illustration */}
+          {/* Soft Teklozy branding halo behind illustration */}
           <div
-            className="absolute -inset-4 rounded-3xl blur-2xl opacity-30 transition-opacity duration-500 group-hover:opacity-50"
+            className="absolute -inset-4 rounded-3xl blur-2xl opacity-25 transition-opacity duration-500 group-hover:opacity-45"
             style={{ backgroundColor: lvl.accent }}
           />
 
-          {/* Level Illustration Image Container */}
-          <div className="relative rounded-3xl p-4 sm:p-6 transition-transform duration-500 group-hover:scale-[1.02]">
+          {/* Level Illustration Image Container (Anchor for Path Connection) */}
+          <div
+            id={`level-img-${lvl.id}`}
+            className="level-floating-island relative rounded-3xl p-4 sm:p-6 transition-transform duration-500 group-hover:scale-[1.03]"
+          >
             <img
               src={levelImage}
               alt={`Level ${lvl.id}: ${lvl.title}`}
-              className="w-full h-auto object-contain max-h-[380px] drop-shadow-xl select-none"
+              className="w-full h-auto object-contain max-h-[380px] drop-shadow-2xl select-none"
               loading={index < 3 ? 'eager' : 'lazy'}
             />
 
             {/* Level Badge Overlay Pill */}
             <div
-              className="absolute bottom-6 left-6 px-3.5 py-1 rounded-full text-xs font-bold text-white shadow-md flex items-center gap-1.5"
+              className="absolute bottom-6 left-6 px-3.5 py-1 rounded-full text-xs font-bold text-white shadow-md flex items-center gap-1.5 backdrop-blur-sm"
               style={{ backgroundColor: lvl.accent }}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -77,19 +146,18 @@ export const LevelCard: React.FC<LevelCardProps> = ({
         </div>
       </div>
 
-      {/* Card Side: Content Card */}
+      {/* Card Side: Curriculum & Milestones */}
       <div
+        ref={cardWrapRef}
         className={`card-wrapper ${
-          isImageLeft
-            ? 'lg:col-span-6'
-            : 'lg:col-span-6 lg:col-start-1'
+          isImageLeft ? 'lg:col-span-6' : 'lg:col-span-6 lg:col-start-1'
         }`}
       >
         <div
-          className={`card bg-white rounded-3xl p-6 sm:p-10 border transition-all duration-300 shadow-sm hover:shadow-xl ${
+          className={`card bg-white/95 backdrop-blur-sm rounded-3xl p-6 sm:p-10 border transition-all duration-300 shadow-sm hover:shadow-xl ${
             isCurrent
-              ? 'border-[#0088E0] ring-2 ring-[#0088E0]/20'
-              : 'border-[#E5E5DE]'
+              ? 'border-[#0088E0] ring-4 ring-[#0088E0]/15 shadow-blue-100'
+              : 'border-[#E5E5DE] hover:border-blue-200'
           }`}
         >
           {/* Top Stage Header */}
@@ -138,44 +206,6 @@ export const LevelCard: React.FC<LevelCardProps> = ({
               </div>
             ))}
           </div>
-
-          {/* Action Row: Expand Simulator */}
-          <div className="mt-8 pt-5 border-t border-slate-100 flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => onToggleExpand(lvl.id)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-white shadow-xs transition-all hover:scale-105 active:scale-95"
-              style={{ backgroundColor: lvl.accent }}
-            >
-              <span>{isExpanded ? 'Hide Interactive Lab' : 'Launch Interactive Lab'}</span>
-              <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
-                {isExpanded ? (
-                  <ChevronUp className="w-3 h-3 text-white" />
-                ) : (
-                  <ArrowRight className="w-3 h-3 text-white" />
-                )}
-              </div>
-            </button>
-          </div>
-
-          {/* Interactive Simulator Drawer (Expanded) */}
-          {isExpanded && (
-            <div className="mt-5 pt-4 border-t border-slate-100 animate-in fade-in duration-300">
-              <div className="bg-[#F8FAFC] rounded-2xl p-4 border border-slate-200">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#0088E0]" />
-                    Hands-On Interactive Simulator
-                  </span>
-                </div>
-                <LevelToy
-                  levelId={lvl.id}
-                  accent={lvl.accent}
-                  onAddXp={onAddXp}
-                />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </article>
