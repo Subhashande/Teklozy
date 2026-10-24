@@ -2,7 +2,41 @@ import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Level } from '../../types/journey';
-import { Check } from 'lucide-react';
+import { LevelVisualScene } from './LevelVisualScene';
+import {
+  ArrowRight,
+  Compass,
+  BarChart2,
+  Target,
+  Play,
+  Code2,
+  Flame,
+  Layers,
+  Globe,
+  GitBranch,
+  Lightbulb,
+  RefreshCw,
+  CheckSquare,
+  Cloud,
+  Bot,
+  TrendingUp,
+  FileText,
+  ExternalLink,
+  Share2,
+  Video,
+  UserCheck,
+  Award,
+  ShieldCheck,
+  Briefcase,
+  Trophy,
+  Users,
+  Coffee,
+  MessageSquare,
+  Sparkles,
+  Medal,
+  Key,
+  CheckCircle,
+} from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,42 +50,73 @@ interface LevelCardProps {
   onAddXp?: (amount: number) => void;
 }
 
+// Icon dictionary for chips
+const ICON_MAP: Record<string, React.ElementType> = {
+  Compass,
+  BarChart2,
+  Target,
+  Play,
+  Code2,
+  Flame,
+  Layers,
+  Globe,
+  GitBranch,
+  Lightbulb,
+  RefreshCw,
+  CheckSquare,
+  Cloud,
+  Bot,
+  TrendingUp,
+  FileText,
+  ExternalLink,
+  Share2,
+  Video,
+  UserCheck,
+  Award,
+  ShieldCheck,
+  Briefcase,
+  Trophy,
+  Users,
+  Coffee,
+  MessageSquare,
+  Sparkles,
+  Medal,
+  Key,
+};
+
 /**
  * LevelCard Component
- * Displays alternating 2-column milestone row with high-res 3D illustration
- * and curriculum details. Enhanced with smooth GSAP entrance reveals and
- * organic floating illustration physics.
+ * Destructured into clean editorial typography on the information side
+ * and an organic 3D illustration scene with floating UI cards on the visual side.
  */
 export const LevelCard: React.FC<LevelCardProps> = ({
   lvl,
   index,
   levelImage,
-  isCurrent = false,
 }) => {
   const isImageLeft = index % 2 === 0;
   const articleRef = useRef<HTMLElement>(null);
-  const imageWrapRef = useRef<HTMLDivElement>(null);
-  const cardWrapRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
 
-  // GSAP scroll entrance & continuous gentle floating physics
+  // GSAP scroll entrance animation
   useEffect(() => {
     const article = articleRef.current;
-    const imgWrap = imageWrapRef.current;
-    const cardWrap = cardWrapRef.current;
-    if (!article || !imgWrap || !cardWrap) return;
+    const info = infoRef.current;
+    const visual = visualRef.current;
+    if (!article || !info || !visual) return;
 
-    // 1. Entrance reveal tied to ScrollTrigger
-    const entranceCtx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: article,
-          start: 'top 85%',
+          start: 'top 82%',
           toggleActions: 'play none none reverse',
         },
       });
 
       tl.fromTo(
-        imgWrap,
+        visual,
         {
           opacity: 0,
           y: 45,
@@ -65,26 +130,24 @@ export const LevelCard: React.FC<LevelCardProps> = ({
           ease: 'power2.out',
         }
       ).fromTo(
-        cardWrap,
+        info,
         {
           opacity: 0,
           y: 35,
-          scale: 0.98,
         },
         {
           opacity: 1,
           y: 0,
-          scale: 1,
           duration: 0.75,
           ease: 'power2.out',
         },
-        '-=0.45'
+        '-=0.5'
       );
 
-      // 2. Continuous organic subtle floating physics on 3D island illustration
-      const floatInner = imgWrap.querySelector('.level-floating-island');
-      if (floatInner) {
-        gsap.to(floatInner, {
+      // Continuous gentle floating on the 3D island illustration
+      const floatEl = visual.querySelector('.level-floating-island');
+      if (floatEl) {
+        gsap.to(floatEl, {
           y: -10,
           duration: 2.8 + (index % 3) * 0.4,
           yoyo: true,
@@ -96,115 +159,111 @@ export const LevelCard: React.FC<LevelCardProps> = ({
     }, article);
 
     return () => {
-      entranceCtx.revert();
+      ctx.revert();
     };
   }, [index]);
+
+  // Format stage index (01 / 10)
+  const stagePill = lvl.id < 10 ? `0${lvl.id} / 10` : `${lvl.id} / 10`;
+
+  // Render title with blue accent highlight
+  const renderTitle = () => {
+    if (lvl.highlightWord && lvl.title.includes(lvl.highlightWord)) {
+      const parts = lvl.title.split(lvl.highlightWord);
+      return (
+        <>
+          {parts[0]}
+          <span className="text-[#0088E0]">{lvl.highlightWord}</span>
+          {parts[1]}
+        </>
+      );
+    }
+    return lvl.title;
+  };
 
   return (
     <article
       ref={articleRef}
       id={`level-row-${lvl.id}`}
-      className={`row relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-14 items-center ${
+      className={`row relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center ${
         isImageLeft ? '' : 'lg:grid-flow-dense'
       }`}
     >
-      {/* Image Side: 3D Illustration Island */}
+      {/* Visual Scene Side: Organic 3D Island & Floating UI Cards */}
       <div
-        ref={imageWrapRef}
-        className={`image flex items-center justify-center ${
+        ref={visualRef}
+        className={`w-full ${
           isImageLeft ? 'lg:col-span-6' : 'lg:col-span-6 lg:col-start-7'
         }`}
       >
-        <div className="relative group w-full max-w-[480px]">
-          {/* Soft Teklozy branding halo behind illustration */}
-          <div
-            className="absolute -inset-4 rounded-3xl blur-2xl opacity-25 transition-opacity duration-500 group-hover:opacity-45"
-            style={{ backgroundColor: lvl.accent }}
-          />
-
-          {/* Level Illustration Image Container (Anchor for Path Connection) */}
-          <div
-            id={`level-img-${lvl.id}`}
-            className="level-floating-island relative rounded-3xl p-4 sm:p-6 transition-transform duration-500 group-hover:scale-[1.03]"
-          >
-            <img
-              src={levelImage}
-              alt={`Level ${lvl.id}: ${lvl.title}`}
-              className="w-full h-auto object-contain max-h-[380px] drop-shadow-2xl select-none"
-              loading={index < 3 ? 'eager' : 'lazy'}
-            />
-
-            {/* Level Badge Overlay Pill */}
-            <div
-              className="absolute bottom-6 left-6 px-3.5 py-1 rounded-full text-xs font-bold text-white shadow-md flex items-center gap-1.5 backdrop-blur-sm"
-              style={{ backgroundColor: lvl.accent }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-              <span>Level {lvl.id < 10 ? `0${lvl.id}` : '10'}</span>
-            </div>
-          </div>
-        </div>
+        <LevelVisualScene lvl={lvl} index={index} levelImage={levelImage} />
       </div>
 
-      {/* Card Side: Curriculum & Milestones */}
+      {/* Information Side: Destructured Editorial Typography & Chips */}
       <div
-        ref={cardWrapRef}
-        className={`card-wrapper ${
+        ref={infoRef}
+        className={`w-full ${
           isImageLeft ? 'lg:col-span-6' : 'lg:col-span-6 lg:col-start-1'
         }`}
       >
-        <div
-          className={`card bg-white/95 backdrop-blur-sm rounded-3xl p-6 sm:p-10 border transition-all duration-300 shadow-sm hover:shadow-xl ${
-            isCurrent
-              ? 'border-[#0088E0] ring-4 ring-[#0088E0]/15 shadow-blue-100'
-              : 'border-[#E5E5DE] hover:border-blue-200'
-          }`}
-        >
-          {/* Top Stage Header */}
-          <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-3 mb-4">
-            <span
-              className="text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full"
-              style={{
-                backgroundColor: `${lvl.accent}15`,
-                color: lvl.accent,
-              }}
-            >
-              {lvl.stageName}
+        <div className="max-w-xl mx-auto lg:mx-0">
+          {/* Dual Pill Stage Eyebrow */}
+          <div className="inline-flex items-center gap-2.5 p-1 pr-3.5 rounded-full bg-blue-50/80 border border-blue-200/60 shadow-2xs mb-4">
+            <span className="px-2.5 py-1 rounded-full bg-[#0088E0] text-white font-mono font-bold text-xs tracking-tight shadow-xs">
+              {stagePill}
             </span>
-
-            <span className="text-xs font-semibold text-slate-400">
-              Step {lvl.id} of 10
+            <span className="text-xs font-bold text-[#0088E0] uppercase tracking-wider">
+              {lvl.stageName}
             </span>
           </div>
 
-          {/* Level Title */}
-          <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#131209] tracking-tight">
-            {lvl.title}
+          {/* Main Headline */}
+          <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#111827] tracking-tight leading-[1.15]">
+            {renderTitle()}
           </h3>
 
-          {/* Level Summary */}
-          <p className="mt-3 text-sm sm:text-base text-[#5C5B55] leading-relaxed">
+          {/* Editorial Description */}
+          <p className="mt-4 text-base sm:text-lg text-slate-600 leading-relaxed font-normal">
             {lvl.line}
           </p>
 
-          {/* Feature Bullets */}
-          <div className="mt-5 space-y-2.5">
-            {lvl.features.map((feature, fIdx) => (
-              <div key={fIdx} className="flex items-start gap-2.5">
+          {/* Feature Pill Chips Row */}
+          <div className="flex flex-wrap gap-2.5 sm:gap-3 mt-6">
+            {lvl.chips && lvl.chips.length > 0 ? (
+              lvl.chips.map((chip, cIdx) => {
+                const IconComponent = ICON_MAP[chip.icon] || CheckCircle;
+                return (
+                  <div
+                    key={cIdx}
+                    className="bg-white/95 backdrop-blur-sm border border-slate-200/90 rounded-2xl px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-xs flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 hover:border-blue-300 hover:shadow-sm transition-all"
+                  >
+                    <IconComponent className="w-4 h-4 text-[#0088E0] shrink-0" />
+                    <span>{chip.label}</span>
+                  </div>
+                );
+              })
+            ) : (
+              lvl.features.map((feat, fIdx) => (
                 <div
-                  className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
-                  style={{ backgroundColor: `${lvl.accent}20` }}
+                  key={fIdx}
+                  className="bg-white/95 backdrop-blur-sm border border-slate-200/90 rounded-2xl px-3.5 py-2 sm:px-4 sm:py-2.5 shadow-xs flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700"
                 >
-                  <Check
-                    className="w-3 h-3 stroke-[3]"
-                    style={{ color: lvl.accent }}
-                  />
+                  <CheckCircle className="w-4 h-4 text-[#0088E0] shrink-0" />
+                  <span>{feat}</span>
                 </div>
-                <span className="text-xs sm:text-sm font-medium text-[#131209]">
-                  {feature}
-                </span>
-              </div>
-            ))}
+              ))
+            )}
+          </div>
+
+          {/* Action Call-to-Action Link */}
+          <div className="mt-8">
+            <a
+              href="#explore"
+              className="inline-flex items-center gap-2 text-sm sm:text-base font-bold text-[#0088E0] hover:text-[#0070BA] transition-all group"
+            >
+              <span>{lvl.ctaText || 'Explore Careers'}</span>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1.5" />
+            </a>
           </div>
         </div>
       </div>

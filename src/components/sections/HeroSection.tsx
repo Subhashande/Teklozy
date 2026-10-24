@@ -116,30 +116,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
       </section>
 
-      {/* 2. Trusted Partners Row & 4 Key Metrics Bar */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 border-b border-slate-200/80">
-
-        {/* Level Fast-Travel Navigation Bar */}
-        <div className="mt-8 w-full max-w-xl mx-auto bg-white rounded-2xl border border-slate-200/90 p-2 shadow-xs flex items-center justify-between gap-1 overflow-x-auto">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((lvlNum) => {
-            const isCur = activeLevelId === lvlNum;
-            return (
-              <button
-                key={lvlNum}
-                onClick={() => onScrollToLevel(lvlNum)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 ${
-                  isCur
-                    ? 'bg-[#0088E0] text-white shadow-xs'
-                    : 'text-[#5C5B55] hover:text-[#131209] hover:bg-slate-100'
-                }`}
-                title={`Jump to Level ${lvlNum}`}
-              >
-                {lvlNum < 10 ? `0${lvlNum}` : '10'}
-              </button>
-            );
-          })}
-        </div>
-      </div>
     </div>
   );
 };

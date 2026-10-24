@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LEVELS } from '../../data/journeyConfig';
+import { JourneyHeader } from '../journey/JourneyHeader';
 import { JourneyPath } from '../journey/JourneyPath';
 import { LevelCard } from '../journey/LevelCard';
 import { Trophy } from 'lucide-react';
@@ -90,12 +91,17 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
 
   return (
     <>
-      {/* 1. Main Spotlight Section with Continuous SVG Path */}
+      {/* 1. Editorial Section Header (Clean, no path running through title text) */}
+      <div className="pt-16 pb-4 px-4 sm:px-8 max-w-7xl mx-auto">
+        <JourneyHeader />
+      </div>
+
+      {/* 2. Main Spotlight Section with Continuous SVG Path starting at Level 1 */}
       <section
         ref={spotlightRef}
-        className="spotlight relative py-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto flex flex-col gap-24 sm:gap-36"
+        className="spotlight relative pb-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto flex flex-col gap-20 sm:gap-28"
       >
-        {/* Continuous SVG Background Path */}
+        {/* Continuous SVG Background Path starts at Level 1 */}
         <JourneyPath containerRef={spotlightRef} />
 
         {/* 10 Alternating Milestone Level Cards */}
