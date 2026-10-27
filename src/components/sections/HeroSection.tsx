@@ -10,13 +10,13 @@ import {
 interface HeroSectionProps {
   activeLevelId: number;
   onScrollToLevel: (levelId: number) => void;
-  onOpenClaimModal: () => void;
+  onOpenContact?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   activeLevelId,
   onScrollToLevel,
-  onOpenClaimModal,
+  onOpenContact,
 }) => {
   return (
     <div className="relative font-manrope">
@@ -50,16 +50,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <ArrowRight className="w-4 h-4 text-white stroke-[2.5] transition-transform duration-200 group-hover:translate-x-1" />
             </button>
 
-            <button
-              onClick={() => onScrollToLevel(4)}
-              className="hero__secondary group"
-              title="Watch Video"
-            >
-              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-md shrink-0 transition-transform duration-200 group-hover:scale-105">
-                <Play className="w-3.5 h-3.5 fill-[#0088E0] text-[#0088E0] ml-0.5" />
-              </div>
-              <span>Watch Video</span>
-            </button>
           </div>
 
           {/* 3 Reference Feature Pills (Horizontal compact layout matching reference image) */}

@@ -10,13 +10,21 @@ gsap.registerPlugin(ScrollTrigger);
  * Manages Lenis smooth scroll lifecycle, synchronization with GSAP ticker,
  * and programmatic smooth scroll navigation.
  */
-export function useTeklozyJourney() {
+export function useTeklozyJourney(enabled: boolean = true) {
   const lenisRef = useRef<Lenis | null>(null);
   const [activeLevelId, setActiveLevelId] = useState<number>(1);
-  const [showClaimModal, setShowClaimModal] = useState<boolean>(false);
+  const [showContactModal, setShowContactModal] = useState<boolean>(false);
 
-  // Setup Lenis Smooth Scroll and connect to GSAP ticker
+  // Setup Lenis Smooth Scroll and connect to GSAP ticker only when enabled
   useEffect(() => {
+    if (!enabled) {
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -40,7 +48,7 @@ export function useTeklozyJourney() {
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, []);
+  }, [enabled]);
 
   // Programmatically scroll smoothly to any level row
   const scrollToLevel = useCallback((id: number) => {
@@ -68,8 +76,8 @@ export function useTeklozyJourney() {
     setActiveLevelId,
     scrollToLevel,
     scrollToTop,
-    showClaimModal,
-    setShowClaimModal,
+    showContactModal,
+    setShowContactModal,
   };
 }
 

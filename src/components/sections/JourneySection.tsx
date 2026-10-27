@@ -35,7 +35,7 @@ interface JourneySectionProps {
   activeLevelId: number;
   onActiveLevelChange: (levelId: number) => void;
   onScrollToLevel: (levelId: number) => void;
-  onOpenClaimModal: () => void;
+  onOpenContact: () => void;
 }
 
 /**
@@ -47,7 +47,7 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
   activeLevelId,
   onActiveLevelChange,
   onScrollToLevel,
-  onOpenClaimModal,
+  onOpenContact,
 }) => {
   const spotlightRef = useRef<HTMLElement>(null);
   const [expandedLevels, setExpandedLevels] = useState<Record<number, boolean>>({ 1: true });
@@ -155,10 +155,10 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
 
             <button
               type="button"
-              onClick={onOpenClaimModal}
-              className="bg-[#0088E0] hover:bg-[#0077CC] text-white px-8 py-3.5 rounded-full text-sm font-bold shadow-md transition-all hover:scale-105"
+              onClick={onOpenContact}
+              className="bg-[#0088E0] hover:bg-[#0077CC] text-white px-8 py-3.5 rounded-full text-sm font-bold shadow-md transition-all hover:scale-105 cursor-pointer"
             >
-              Claim Your Career Spot
+              Contact Us
             </button>
           </div>
         </div>

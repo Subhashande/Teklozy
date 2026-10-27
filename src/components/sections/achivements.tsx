@@ -106,10 +106,10 @@ const COLUMNS: ColumnData[] = [
 const REPEATED_COLUMNS = [...COLUMNS, ...COLUMNS];
 
 interface AchivementsProps {
-  onOpenClaimModal?: () => void;
+  onOpenContact?: () => void;
 }
 
-export const Achivements: React.FC<AchivementsProps> = ({ onOpenClaimModal }) => {
+export const Achivements: React.FC<AchivementsProps> = ({ onOpenContact }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
 

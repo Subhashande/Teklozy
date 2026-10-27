@@ -4,7 +4,8 @@ import logoPng from '../../assets/images/erasebg-teklozy.png';
 
 interface HeaderProps {
   onScrollToLevel: (levelId: number) => void;
-  onOpenClaimModal: () => void;
+  onOpenContact: () => void;
+  onOpenLogin: () => void;
 }
 
 /**
@@ -14,7 +15,8 @@ interface HeaderProps {
  */
 export const Header: React.FC<HeaderProps> = ({
   onScrollToLevel,
-  onOpenClaimModal,
+  onOpenContact,
+  onOpenLogin,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -89,13 +91,6 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => handleNavClick(3)}
-              className="hover:text-white transition-colors cursor-pointer drop-shadow-xs"
-            >
-              Features
-            </button>
-            <button
-              type="button"
               onClick={() => handleNavClick(7)}
               className="hover:text-white transition-colors cursor-pointer drop-shadow-xs"
             >
@@ -106,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => handleNavClick(9)}
               className="hover:text-white transition-colors cursor-pointer drop-shadow-xs"
             >
-              For Institutions
+              Our Team
             </button>
           </div>
 
@@ -114,15 +109,15 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-3 sm:gap-4">
             <button
               type="button"
-              onClick={onOpenClaimModal}
-              className="hidden lg:inline-block text-sm font-semibold text-white/85 hover:text-white transition-colors cursor-pointer"
+              onClick={onOpenLogin}
+              className="hidden lg:inline-block text-sm font-semibold text-white/85 hover:text-white transition-colors cursor-pointer px-3 py-1.5 rounded-full hover:bg-white/10"
             >
               Log in
             </button>
 
             <button
               type="button"
-              onClick={onOpenClaimModal}
+              onClick={onOpenContact}
               className="hidden sm:inline-flex items-center justify-center bg-white hover:bg-slate-100 text-[#0F172A] font-bold text-sm px-6 py-2.5 rounded-full transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-sm cursor-pointer shrink-0"
             >
               Contact Us
@@ -160,13 +155,6 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleNavClick(3)}
-                className="text-left px-3 py-2 rounded-xl hover:bg-white/10 hover:text-white transition-colors"
-              >
-                Features
-              </button>
-              <button
-                type="button"
                 onClick={() => handleNavClick(7)}
                 className="text-left px-3 py-2 rounded-xl hover:bg-white/10 hover:text-white transition-colors"
               >
@@ -177,19 +165,32 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={() => handleNavClick(9)}
                 className="text-left px-3 py-2 rounded-xl hover:bg-white/10 hover:text-white transition-colors"
               >
-                For Institutions
+                Our Team
               </button>
 
-              <button
-                type="button"
-                onClick={() => {
-                  onOpenClaimModal();
-                  setMobileMenuOpen(false);
-                }}
-                className="mt-2 w-full bg-white hover:bg-slate-100 text-[#0F172A] font-bold text-sm py-3 rounded-full text-center transition-all shadow-md"
-              >
-                Contact Us
-              </button>
+              <div className="pt-2 border-t border-white/15 flex flex-col gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onOpenLogin();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm py-2.5 rounded-full text-center transition-all border border-white/20 cursor-pointer"
+                >
+                  Log in (3-Way Portal)
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    onOpenContact();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full bg-white hover:bg-slate-100 text-[#0F172A] font-bold text-sm py-3 rounded-full text-center transition-all shadow-md cursor-pointer"
+                >
+                  Contact Us
+                </button>
+              </div>
             </div>
           </div>
         )}
