@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   X,
-  Send,
   Mail,
-  Phone,
-  MessageSquare,
-  Building2,
-  GraduationCap,
+  Send,
   CheckCircle2,
-  ExternalLink,
-  Sparkles,
+  AlertCircle,
+  Loader2,
+  Clock,
+  ShieldCheck,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import logoPng from '../../assets/images/erasebg-teklozy.png';
@@ -20,400 +18,489 @@ interface ContactUsModalProps {
   defaultAudience?: 'student' | 'management';
 }
 
+interface FormState {
+  fullName: string;
+  email: string;
+  topic: string;
+  message: string;
+}
+
+interface FormErrors {
+  fullName?: string;
+  email?: string;
+  topic?: string;
+  message?: string;
+}
+
+const TOPIC_OPTIONS = [
+  'Student / Learner',
+  'College Partnership',
+  'Mentorship',
+  'Other',
+];
+
 export const ContactUsModal: React.FC<ContactUsModalProps> = ({
   isOpen,
   onClose,
   defaultAudience = 'student',
 }) => {
-  const [audience, setAudience] = useState<'student' | 'management'>(defaultAudience);
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [organization, setOrganization] = useState('');
-  const [interestTrack, setInterestTrack] = useState('fullstack-ai');
-  const [partnershipType, setPartnershipType] = useState('campus-hub');
-  const [message, setMessage] = useState('');
+  const initialTopic = defaultAudience === 'management' ? 'College Partnership' : 'Student / Learner';
+
+  const [formData, setFormData] = useState<FormState>({
+    fullName: '',
+    email: '',
+    topic: initialTopic,
+    message: '',
+  });
+
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  // Sync default topic when audience changes or modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setFormData((prev) => ({
+        ...prev,
+        topic: prev.topic || (defaultAudience === 'management' ? 'College Partnership' : 'Student / Learner'),
+      }));
+    }
+  }, [isOpen, defaultAudience]);
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen && !isSubmitting) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, isSubmitting, onClose]);
+
   if (!isOpen) return null;
+
+  const validate = (): boolean => {
+    const newErrors: FormErrors = {};
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full Name is required.';
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = 'Please enter your full name.';
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email Address is required.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    if (!formData.topic.trim()) {
+      newErrors.topic = 'Please select what you are contacting us about.';
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required.';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Please provide a brief message (at least 10 characters).';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (
+    field: keyof FormState,
+    value: string
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear field-specific error on change
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!fullName.trim() || !email.trim()) return;
+    if (!validate() || isSubmitting) return;
 
     setIsSubmitting(true);
 
-    // Simulate instant secure submission
+    // Simulate reliable submission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-      confetti({
-        particleCount: 90,
-        spread: 75,
-        origin: { y: 0.6 },
-        colors: ['#0088E0', '#00D2FF', '#10B981', '#6366F1'],
-      });
+      try {
+        confetti({
+          particleCount: 70,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ['#0088E0', '#00B4D8', '#10B981'],
+        });
+      } catch {
+        // Fallback gracefully if canvas-confetti is not available
+      }
     }, 600);
   };
 
   const handleReset = () => {
     setIsSubmitted(false);
-    setFullName('');
-    setEmail('');
-    setPhone('');
-    setOrganization('');
-    setMessage('');
+    setFormData({
+      fullName: '',
+      email: '',
+      topic: 'Student / Learner',
+      message: '',
+    });
+    setErrors({});
+  };
+
+  const handleClose = () => {
+    if (isSubmitting) return;
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#060F1E]/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200">
-      <div className="relative bg-white rounded-3xl max-w-4xl w-full shadow-2xl border border-slate-200/80 overflow-hidden my-auto animate-in zoom-in-95 duration-200">
-        
-        {/* Top Header Bar */}
-        <div className="bg-gradient-to-r from-[#0B1528] via-[#0C2044] to-[#0088E0] text-white p-5 sm:p-7 flex items-center justify-between relative overflow-hidden">
-          <div className="absolute right-0 top-0 translate-x-1/4 -translate-y-1/4 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none" />
-          
-          <div className="flex items-center gap-3.5 relative z-10">
-            <div className="h-10 w-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 p-1.5 flex items-center justify-center shrink-0">
+    <div
+      className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 md:p-6 overflow-y-auto"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) handleClose();
+      }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="contact-modal-title"
+    >
+      <div
+        data-lenis-prevent="true"
+        className="relative bg-white rounded-2xl sm:rounded-3xl max-w-3xl w-full shadow-2xl border border-slate-200/90 overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200"
+      >
+        {/* 1. Header: Clean, Minimal, Professional */}
+        <div className="bg-white border-b border-slate-100 px-6 py-5 sm:px-8 sm:py-6 flex items-start justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-slate-50 border border-slate-200/70 p-1.5 flex items-center justify-center shrink-0">
               <img
                 src={logoPng}
-                alt="Teklozy Logo"
-                className="w-full h-full object-contain filter drop-shadow"
+                alt="Teklozy"
+                className="w-full h-full object-contain"
               />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="font-display font-extrabold text-xl sm:text-2xl text-white tracking-tight">
-                  Get in Touch with Teklozy
-                </h2>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-200 border border-cyan-400/30">
-                  <Sparkles className="w-3 h-3" /> 24h Response
-                </span>
-              </div>
-              <p className="text-xs sm:text-sm text-cyan-100/80 mt-0.5">
-                Whether you’re a passionate student or college leadership, we’re ready to connect.
+              <h2
+                id="contact-modal-title"
+                className="font-display font-bold text-xl sm:text-2xl text-slate-900 tracking-tight"
+              >
+                Get in Touch with Teklozy
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+                Have questions or want to collaborate? Send us a message and our team will get back to you shortly.
               </p>
             </div>
           </div>
 
           <button
-            onClick={onClose}
-            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer relative z-10 shrink-0"
-            aria-label="Close Contact Modal"
+            onClick={handleClose}
+            disabled={isSubmitting}
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors cursor-pointer shrink-0 disabled:opacity-50"
+            aria-label="Close dialog"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
-        {/* Content Body Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[500px]">
+        {/* 2. Content Body: Desktop 2-column, Mobile 1-column (Form first, email below) */}
+        <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100">
           
-          {/* Left / Main Column: Contact Form (7 cols) */}
-          <div className="lg:col-span-7 p-6 sm:p-8 bg-white flex flex-col justify-between">
+          {/* Left Column: Contact Form (7 cols on desktop) */}
+          <div className="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
             {isSubmitted ? (
-              <div className="py-12 flex flex-col items-center justify-center text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border-2 border-emerald-400 flex items-center justify-center animate-bounce">
-                  <CheckCircle2 className="w-9 h-9" />
+              <div className="py-8 sm:py-12 flex flex-col items-center justify-center text-center space-y-4">
+                <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center">
+                  <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <h3 className="font-display font-bold text-2xl text-slate-900">
                   Message Sent Successfully!
                 </h3>
-                <p className="text-sm text-slate-600 max-w-sm">
-                  Thank you, <span className="font-semibold text-slate-900">{fullName}</span>. 
-                  Our team has received your inquiry for{' '}
-                  <span className="font-medium text-[#0088E0]">
-                    {audience === 'student' ? 'Student Admissions & Roadmap' : 'College Management Partnership'}
-                  </span>. We will reach back to you within 24 hours.
+                <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
+                  Thank you, <span className="font-semibold text-slate-900">{formData.fullName}</span>. 
+                  We’ve received your inquiry regarding <span className="font-medium text-[#0088E0]">{formData.topic}</span>. 
+                  Our team will reply to <span className="font-semibold text-slate-900">{formData.email}</span> within 24 hours.
                 </p>
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="mt-4 px-6 py-2.5 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-colors"
-                >
-                  Close Window
-                </button>
+                <div className="pt-2 flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition-colors cursor-pointer"
+                  >
+                    Send Another Message
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="px-5 py-2 rounded-xl bg-[#0088E0] hover:bg-[#0077CC] text-white font-semibold text-sm transition-colors cursor-pointer shadow-sm"
+                  >
+                    Done
+                  </button>
+                </div>
               </div>
             ) : (
-              <div>
-                {/* Persona Switcher Tabs */}
-                <div className="mb-6">
-                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
-                    I am reaching out as:
+              <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                {/* Field 1: Full Name */}
+                <div>
+                  <label
+                    htmlFor="contact-full-name"
+                    className="block text-xs font-semibold text-slate-700 mb-1.5"
+                  >
+                    Full Name <span className="text-red-500">*</span>
                   </label>
-                  <div className="grid grid-cols-2 gap-2 p-1 bg-slate-100 rounded-2xl border border-slate-200">
-                    <button
-                      type="button"
-                      onClick={() => setAudience('student')}
-                      className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                        audience === 'student'
-                          ? 'bg-white text-[#0088E0] shadow-sm'
-                          : 'text-slate-600 hover:text-slate-900'
-                      }`}
-                    >
-                      <GraduationCap className="w-4 h-4" />
-                      <span>Student / Learner</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setAudience('management')}
-                      className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
-                        audience === 'management'
-                          ? 'bg-white text-[#0088E0] shadow-sm'
-                          : 'text-slate-600 hover:text-slate-900'
-                      }`}
-                    >
-                      <Building2 className="w-4 h-4" />
-                      <span>College Management</span>
-                    </button>
-                  </div>
+                  <input
+                    id="contact-full-name"
+                    type="text"
+                    required
+                    value={formData.fullName}
+                    onChange={(e) => handleChange('fullName', e.target.value)}
+                    placeholder="e.g. Alex Johnson"
+                    disabled={isSubmitting}
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all text-slate-900 placeholder:text-slate-400 focus:outline-none ${
+                      errors.fullName
+                        ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100 bg-red-50/20'
+                        : 'border-slate-200 focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15'
+                    }`}
+                  />
+                  {errors.fullName && (
+                    <p className="flex items-center gap-1 text-xs text-red-500 font-medium mt-1">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errors.fullName}</span>
+                    </p>
+                  )}
                 </div>
 
-                {/* Form Elements */}
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="John Doe"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Work / Student Email *
-                      </label>
-                      <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="john@example.edu"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        Phone / WhatsApp
-                      </label>
-                      <input
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+91 98765 43210"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">
-                        {audience === 'student' ? 'College / University Name' : 'Institution / College Name'}
-                      </label>
-                      <input
-                        type="text"
-                        value={organization}
-                        onChange={(e) => setOrganization(e.target.value)}
-                        placeholder={audience === 'student' ? 'e.g. NIT / RVCE' : 'e.g. BMS Institute of Tech'}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Topic Select depending on Audience */}
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      {audience === 'student' ? 'Interested Career Path / Inquiry' : 'Partnership Interest'}
-                    </label>
-                    {audience === 'student' ? (
-                      <select
-                        value={interestTrack}
-                        onChange={(e) => setInterestTrack(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15 cursor-pointer"
-                      >
-                        <option value="fullstack-ai">Full-Stack & Generative AI (10-Level Career Path)</option>
-                        <option value="cloud-devops">Cloud Engineering & DevOps Immersion</option>
-                        <option value="data-ml">Data Science & Machine Learning Systems</option>
-                        <option value="mentorship">1:1 Industry Mentorship & Portfolio Reviews</option>
-                        <option value="placement-prep">Placement & Interview Prep Bootcamp</option>
-                      </select>
-                    ) : (
-                      <select
-                        value={partnershipType}
-                        onChange={(e) => setPartnershipType(e.target.value)}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm bg-white focus:outline-none focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15 cursor-pointer"
-                      >
-                        <option value="campus-hub">Establish On-Campus AI Innovation Hub & Lab</option>
-                        <option value="curriculum">Integrate Teklozy Curriculum & 10 Levels into Syllabus</option>
-                        <option value="recruitment">Host Exclusive Campus Placement & Hiring Drives</option>
-                        <option value="faculty-dev">Faculty Development Programs (FDP) & AI Upskilling</option>
-                        <option value="hackathon">Sponsor College Hackathons & Capstone Demo Days</option>
-                      </select>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Your Message or Questions
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      placeholder={
-                        audience === 'student'
-                          ? 'Tell us what semester you are in, what you want to achieve, or ask anything...'
-                          : 'Tell us about your student cohort size, preferred timeline, or MoU requirements...'
-                      }
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15 resize-none"
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between pt-2">
-                    <p className="text-[11px] text-slate-400">
-                      🔒 Your data is private and confidential.
+                {/* Field 2: Email Address */}
+                <div>
+                  <label
+                    htmlFor="contact-email"
+                    className="block text-xs font-semibold text-slate-700 mb-1.5"
+                  >
+                    Email Address <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => handleChange('email', e.target.value)}
+                    placeholder="e.g. alex@example.com"
+                    disabled={isSubmitting}
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all text-slate-900 placeholder:text-slate-400 focus:outline-none ${
+                      errors.email
+                        ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100 bg-red-50/20'
+                        : 'border-slate-200 focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15'
+                    }`}
+                  />
+                  {errors.email && (
+                    <p className="flex items-center gap-1 text-xs text-red-500 font-medium mt-1">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errors.email}</span>
                     </p>
-                    <button
-                      type="submit"
+                  )}
+                </div>
+
+                {/* Field 3: I’m contacting you about */}
+                <div>
+                  <label
+                    htmlFor="contact-topic"
+                    className="block text-xs font-semibold text-slate-700 mb-1.5"
+                  >
+                    I’m contacting you about <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="contact-topic"
+                      required
+                      value={formData.topic}
+                      onChange={(e) => handleChange('topic', e.target.value)}
                       disabled={isSubmitting}
-                      className="inline-flex items-center gap-2 bg-[#0088E0] hover:bg-[#0077CC] text-white text-sm font-bold px-6 py-2.5 rounded-xl transition-all shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer disabled:opacity-60"
+                      className={`w-full px-3.5 py-2.5 rounded-xl border text-sm bg-white transition-all text-slate-900 focus:outline-none cursor-pointer appearance-none ${
+                        errors.topic
+                          ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100 bg-red-50/20'
+                          : 'border-slate-200 focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15'
+                      }`}
                     >
-                      {isSubmitting ? (
-                        <span>Sending...</span>
-                      ) : (
-                        <>
-                          <span>Submit Message</span>
-                          <Send className="w-3.5 h-3.5" />
-                        </>
-                      )}
-                    </button>
+                      {TOPIC_OPTIONS.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400">
+                      <svg className="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path
+                          fillRule="evenodd"
+                          d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
                   </div>
-                </form>
-              </div>
+                  {errors.topic && (
+                    <p className="flex items-center gap-1 text-xs text-red-500 font-medium mt-1">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errors.topic}</span>
+                    </p>
+                  )}
+                </div>
+
+                {/* Field 4: Message */}
+                <div>
+                  <label
+                    htmlFor="contact-message"
+                    className="block text-xs font-semibold text-slate-700 mb-1.5"
+                  >
+                    Message <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    required
+                    rows={4}
+                    value={formData.message}
+                    onChange={(e) => handleChange('message', e.target.value)}
+                    placeholder="How can we help? Please share any details about your inquiry, program goals, or questions..."
+                    disabled={isSubmitting}
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all text-slate-900 placeholder:text-slate-400 focus:outline-none resize-none ${
+                      errors.message
+                        ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100 bg-red-50/20'
+                        : 'border-slate-200 focus:border-[#0088E0] focus:ring-2 focus:ring-[#0088E0]/15'
+                    }`}
+                  />
+                  {errors.message && (
+                    <p className="flex items-center gap-1 text-xs text-red-500 font-medium mt-1">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>{errors.message}</span>
+                    </p>
+                  )}
+                </div>
+
+                {/* Field 5: Primary CTA: "Send Message" */}
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#0088E0] hover:bg-[#0077CC] active:bg-[#0066B3] text-white text-sm font-bold px-6 py-3 rounded-xl transition-all shadow-md hover:shadow-lg cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <Send className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                </div>
+              </form>
             )}
           </div>
 
-          {/* Right Column: Social Channels & Direct Reachout (5 cols) */}
-          <div className="lg:col-span-5 bg-gradient-to-br from-slate-50 to-blue-50/50 p-6 sm:p-8 border-t lg:border-t-0 lg:border-l border-slate-200 flex flex-col justify-between">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-[#0088E0] block mb-1">
-                Direct Channels
-              </span>
-              <h3 className="font-display font-bold text-lg text-slate-900 mb-2">
-                Connect Directly
-              </h3>
-              <p className="text-xs text-slate-600 mb-5 leading-relaxed">
-                Need immediate answers or want to discuss campus MoUs directly? Reach out through our direct communication hotlines.
-              </p>
+          {/* Right Column: Compact Contact Information Panel (5 cols on desktop) */}
+          <div className="md:col-span-5 bg-slate-50/80 p-6 sm:p-8 flex flex-col justify-between gap-6">
+            <div className="space-y-5">
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#0088E0] block mb-1">
+                  Direct Inquiries
+                </span>
+                <h3 className="font-display font-bold text-base sm:text-lg text-slate-900">
+                  Official Communication
+                </h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  Prefer to reach out via email directly? Write to our verified inbox.
+                </p>
+              </div>
 
-              {/* Contact Cards */}
-              <div className="space-y-3 mb-6">
-                <a
-                  href="mailto:contact@teklozy.com"
-                  className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-slate-200/80 hover:border-[#0088E0]/50 hover:shadow-sm transition-all group"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0088E0] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                    <Mail className="w-4 h-4" />
+              {/* Verified Official Email Card */}
+              <a
+                href="mailto:contact@teklozy.com"
+                className="group block p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#0088E0] transition-all hover:shadow-sm"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#0088E0]/10 text-[#0088E0] flex items-center justify-center shrink-0 group-hover:bg-[#0088E0] group-hover:text-white transition-colors">
+                    <Mail className="w-5 h-5" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-[11px] font-semibold text-slate-400 uppercase">Official Email</div>
-                    <div className="text-xs sm:text-sm font-bold text-slate-800 truncate">contact@teklozy.com</div>
+                    <div className="text-[11px] font-semibold text-slate-400 uppercase tracking-wide">
+                      Official Email
+                    </div>
+                    <div className="text-sm font-bold text-slate-800 truncate group-hover:text-[#0088E0] transition-colors">
+                      contact@teklozy.com
+                    </div>
                   </div>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0088E0] transition-colors shrink-0" />
-                </a>
+                </div>
+              </a>
 
-                <a
-                  href="https://wa.me/919876543210"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-slate-200/80 hover:border-emerald-500/50 hover:shadow-sm transition-all group"
-                >
-                  <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                    <MessageSquare className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="text-[11px] font-semibold text-slate-400 uppercase">WhatsApp Admissions</div>
-                    <div className="text-xs sm:text-sm font-bold text-slate-800 truncate">+91 98765 43210</div>
-                  </div>
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-600 transition-colors shrink-0" />
-                </a>
+              {/* Social Channels: Instagram & LinkedIn */}
+              <div>
+                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                  Follow & Connect
+                </span>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <a
+                    href="https://linkedin.com/company/teklozy"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white border border-slate-200 hover:border-[#0088E0] hover:text-[#0088E0] text-slate-700 text-xs font-semibold transition-all shadow-2xs group"
+                  >
+                    <div className="w-7 h-7 rounded-lg bg-[#0088E0]/10 text-[#0088E0] flex items-center justify-center shrink-0 group-hover:bg-[#0088E0] group-hover:text-white transition-colors">
+                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.53 1.53 0 1 0 0-3.06 1.53 1.53 0 0 0 0 3.06m1.39 9.74v-8.37H5.07v8.37h2.78z" />
+                      </svg>
+                    </div>
+                    <span className="truncate">LinkedIn</span>
+                  </a>
 
-                <div className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-slate-200/80">
-                  <div className="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-                    <Phone className="w-4 h-4" />
+                  <a
+                    href="https://instagram.com/teklozy"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white border border-slate-200 hover:border-pink-500 hover:text-pink-600 text-slate-700 text-xs font-semibold transition-all shadow-2xs group"
+                  >
+                    <div className="w-7 h-7 rounded-lg bg-pink-50 text-pink-600 flex items-center justify-center shrink-0 group-hover:bg-pink-600 group-hover:text-white transition-colors">
+                      <svg
+                        className="w-3.5 h-3.5 fill-none stroke-current stroke-2"
+                        viewBox="0 0 24 24"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                      </svg>
+                    </div>
+                    <span className="truncate">Instagram</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Fast Response & Privacy Badges */}
+              <div className="space-y-2.5 pt-0.5">
+                <div className="flex items-start gap-2.5 text-xs text-slate-600">
+                  <Clock className="w-4 h-4 text-[#0088E0] shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-semibold text-slate-800">Prompt Attention:</span> We typically respond within 24 business hours.
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="text-[11px] font-semibold text-slate-400 uppercase">Institutional Relations</div>
-                    <div className="text-xs sm:text-sm font-bold text-slate-800 truncate">+91 98765 43211</div>
+                </div>
+                <div className="flex items-start gap-2.5 text-xs text-slate-600">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-semibold text-slate-800">Strictly Confidential:</span> Inquiries go directly to verified Teklozy coordinators.
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Social Links Bar */}
-            <div className="pt-4 border-t border-slate-200">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-3">
-                Follow & Join the Community
-              </span>
-              <div className="flex flex-wrap items-center gap-2">
-                <a
-                  href="https://linkedin.com/company/teklozy"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-slate-200 hover:border-[#0088E0] hover:text-[#0088E0] text-slate-700 text-xs font-semibold transition-all shadow-2xs cursor-pointer"
-                >
-                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.53 1.53 0 1 0 0-3.06 1.53 1.53 0 0 0 0 3.06m1.39 9.74v-8.37H5.07v8.37h2.78z" />
-                  </svg>
-                  <span>LinkedIn</span>
-                </a>
-
-                <a
-                  href="https://twitter.com/teklozy"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-slate-200 hover:border-slate-800 hover:text-slate-900 text-slate-700 text-xs font-semibold transition-all shadow-2xs cursor-pointer"
-                >
-                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg>
-                  <span>X (Twitter)</span>
-                </a>
-
-                <a
-                  href="https://instagram.com/teklozy"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-slate-200 hover:border-pink-500 hover:text-pink-600 text-slate-700 text-xs font-semibold transition-all shadow-2xs cursor-pointer"
-                >
-                  <svg className="w-3.5 h-3.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                  </svg>
-                  <span>Instagram</span>
-                </a>
-
-                <a
-                  href="https://discord.gg/teklozy"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-slate-200 hover:border-indigo-500 hover:text-indigo-600 text-slate-700 text-xs font-semibold transition-all shadow-2xs cursor-pointer"
-                >
-                  <MessageSquare className="w-3.5 h-3.5 text-indigo-500" />
-                  <span>Discord</span>
-                </a>
-              </div>
+            {/* Bottom Footer Note */}
+            <div className="pt-4 border-t border-slate-200/70 text-[11px] text-slate-400">
+              Teklozy • Empowering future-ready engineering careers.
             </div>
-
           </div>
 
         </div>

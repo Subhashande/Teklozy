@@ -108,7 +108,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   return (
     <div 
       data-lenis-prevent="true"
-      data-lenis-prevent
       className="h-screen w-full max-h-screen bg-[#EEF2F6] text-[#131209] font-manrope flex items-center justify-center p-2 sm:p-4 lg:p-6 selection:bg-[#0088E0] selection:text-white relative overflow-hidden box-border"
     >
       {/* Background Subtle Dot Pattern */}
@@ -123,7 +122,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       {/* Standard Centered Unified Card Model */}
       <div 
         data-lenis-prevent="true"
-        data-lenis-prevent
         className="relative z-10 w-full max-w-5xl xl:max-w-6xl h-full max-h-[96vh] sm:max-h-[92vh] lg:max-h-[760px] bg-white rounded-2xl sm:rounded-[32px] shadow-[0_20px_50px_rgba(0,0,0,0.06)] border border-slate-200/90 p-3 sm:p-4 lg:p-5 flex flex-col lg:flex-row items-stretch gap-3 sm:gap-4 lg:gap-5 overflow-hidden"
       >
         
@@ -132,7 +130,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         {/* ================================================================= */}
         <div 
           data-lenis-prevent="true"
-          data-lenis-prevent
           tabIndex={0}
           className="w-full lg:w-[48%] h-full flex flex-col justify-between px-3 sm:px-6 py-2 overflow-y-auto overscroll-contain focus:outline-none"
           style={{ scrollbarWidth: 'thin' }}
