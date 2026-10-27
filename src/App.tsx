@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Header } from './components/sections/Header';
 import { HeroSection } from './components/sections/HeroSection';
 import { JourneySection } from './components/sections/JourneySection';
+import CollaborationSection from './components/sections/CollaborationSection';
 import { Achivements } from './components/sections/achivements';
 import { Footer } from './components/layout/Footer';
 import { ClaimSpotModal } from './components/ui/ClaimSpotModal';
@@ -47,6 +48,9 @@ export default function App() {
         onScrollToLevel={scrollToLevel}
         onOpenClaimModal={() => setShowClaimModal(true)}
       />
+
+      {/* Collaboration Section */}
+      <CollaborationSection />
 
       {/* 4. Alumni Achievements & Testimonial Inspirations Infinite 3D Carousel */}
       <Achivements onOpenClaimModal={() => setShowClaimModal(true)} />
