@@ -6,6 +6,7 @@ interface HeaderProps {
   onScrollToLevel: (levelId: number) => void;
   onOpenContact: () => void;
   onOpenLogin: () => void;
+  onOpenTeam?: () => void;
 }
 
 /**
@@ -17,6 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
   onScrollToLevel,
   onOpenContact,
   onOpenLogin,
+  onOpenTeam,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -98,7 +100,13 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => handleNavClick(9)}
+              onClick={() => {
+                if (onOpenTeam) {
+                  onOpenTeam();
+                } else {
+                  handleNavClick(9);
+                }
+              }}
               className="hover:text-white transition-colors cursor-pointer drop-shadow-xs"
             >
               Our Team
@@ -162,7 +170,14 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleNavClick(9)}
+                onClick={() => {
+                  if (onOpenTeam) {
+                    onOpenTeam();
+                  } else {
+                    handleNavClick(9);
+                  }
+                  setMobileMenuOpen(false);
+                }}
                 className="text-left px-3 py-2 rounded-xl hover:bg-white/10 hover:text-white transition-colors"
               >
                 Our Team

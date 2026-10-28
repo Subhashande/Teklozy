@@ -6,16 +6,19 @@ import { Achivements } from './components/sections/achivements';
 import { Footer } from './components/layout/Footer';
 import { ContactUsModal } from './components/ui/ContactUsModal';
 import { LoginPage } from './components/pages/LoginPage';
+import { TeamPage } from './components/pages/TeamPage';
 import { TeklozyPreloader } from './components/ui/TeklozyPreloader';
 import { useTeklozyJourney } from './hooks/useTeklozyJourney';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentView, setCurrentView] = useState<'home' | 'login'>(() => {
+  const [currentView, setCurrentView] = useState<'home' | 'login' | 'team'>(() => {
     if (typeof window !== 'undefined') {
       const path = window.location.pathname;
       const hash = window.location.hash;
-      return path === '/login' || hash === '#login' ? 'login' : 'home';
+      if (path === '/login' || hash === '#login') return 'login';
+      if (path === '/team' || hash === '#team') return 'team';
+      return 'home';
     }
     return 'home';
   });
@@ -32,8 +35,15 @@ export default function App() {
   // Handle browser back/forward buttons & URL hash changes
   useEffect(() => {
     const handleUrlChange = () => {
-      const isLogin = window.location.pathname === '/login' || window.location.hash === '#login';
-      setCurrentView(isLogin ? 'login' : 'home');
+      const hash = window.location.hash;
+      const path = window.location.pathname;
+      if (path === '/login' || hash === '#login') {
+        setCurrentView('login');
+      } else if (path === '/team' || hash === '#team') {
+        setCurrentView('team');
+      } else {
+        setCurrentView('home');
+      }
     };
 
     window.addEventListener('popstate', handleUrlChange);
@@ -50,9 +60,15 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const navigateToTeam = () => {
+    setCurrentView('team');
+    window.location.hash = '#team';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const navigateToHome = () => {
     setCurrentView('home');
-    if (window.location.hash === '#login') {
+    if (window.location.hash === '#login' || window.location.hash === '#team') {
       window.history.pushState(null, '', window.location.pathname);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -75,6 +91,24 @@ export default function App() {
     );
   }
 
+  // If viewing the dedicated Our Team Page
+  if (currentView === 'team') {
+    return (
+      <>
+        {isLoading && <TeklozyPreloader onComplete={() => setIsLoading(false)} />}
+        <TeamPage
+          onNavigateHome={navigateToHome}
+          onOpenContact={() => setShowContactModal(true)}
+          onOpenLogin={navigateToLogin}
+        />
+        <ContactUsModal
+          isOpen={showContactModal}
+          onClose={() => setShowContactModal(false)}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       {/* Brand Intro Preloader with GSAP DrawSVG & Fill Animation */}
@@ -88,6 +122,7 @@ export default function App() {
           onScrollToLevel={scrollToLevel}
           onOpenContact={() => setShowContactModal(true)}
           onOpenLogin={navigateToLogin}
+          onOpenTeam={navigateToTeam}
         />
 
         {/* 2. Connected Modular Hero Section */}
@@ -108,7 +143,7 @@ export default function App() {
         {/* 4. Alumni Achievements & Testimonial Inspirations Infinite 3D Carousel */}
         <Achivements onOpenContact={() => setShowContactModal(true)} />
 
-        {/* 5. 4-Column Statement Footer with Watermark */}
+        {/* 5. Statement Footer */}
         <Footer
           brandName="Teklozy"
           onBackToTop={scrollToTop}
