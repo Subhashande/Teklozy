@@ -126,7 +126,7 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
       </section>
 
       {/* 2. Outro Celebration Section */}
-      <section className="outro min-h-[50vh] flex flex-col justify-center items-center text-center px-6 py-24 max-w-4xl mx-auto">
+      <section className="outro min-h-[40vh] flex flex-col justify-center items-center text-center px-6 pt-20 pb-10 max-w-4xl mx-auto">
         <div className="bg-white rounded-3xl p-8 sm:p-14 border border-[#E5E5DE] shadow-xl w-full">
           <div className="w-16 h-16 rounded-full bg-blue-50 border-2 border-blue-200 flex items-center justify-center mx-auto mb-4">
             <Trophy className="w-8 h-8 text-[#0088E0]" />

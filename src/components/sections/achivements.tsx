@@ -3,6 +3,16 @@ import gsap from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { ArrowLeft, ArrowRight, Sparkles, Pause, Play } from 'lucide-react';
 
+import community1 from '../../assets/images/community/community-1.jpeg';
+import community2 from '../../assets/images/community/community-2.jpeg';
+import community3 from '../../assets/images/community/community-3.png';
+import community4 from '../../assets/images/community/community-4.png';
+import community5 from '../../assets/images/community/community-5.png';
+import community6 from '../../assets/images/community/community-6.jpeg';
+import community7 from '../../assets/images/community/community-7.jpeg';
+import community8 from '../../assets/images/community/community-8.jpeg';
+import community9 from '../../assets/images/community/community-9.jpeg';
+
 gsap.registerPlugin(Draggable);
 
 export interface CommunityCard {
@@ -19,85 +29,85 @@ const COLUMNS: ColumnData[] = [
   {
     type: 'single',
     card: {
-      name: 'Siddharth Joshi',
-      role: 'Founding Engineer @ Stealth AI',
-      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community1,
     },
   },
   {
     type: 'stacked',
     topCard: {
-      name: 'Ananya S.',
-      role: 'Full Stack Dev @ Atlassian',
-      image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community2,
     },
     bottomCard: {
-      name: 'Devansh Pillai',
-      role: 'Platform Engineer @ Postman',
-      image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community3,
     },
   },
   {
     type: 'single',
     card: {
-      name: 'Varun Malhotra',
-      role: 'Systems Architect @ Swiggy',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community4,
     },
   },
   {
     type: 'stacked',
     topCard: {
-      name: 'Ananya S.',
-      role: 'Frontend Architect @ Stripe',
-      image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community5,
     },
     bottomCard: {
-      name: 'Simran Kaur',
-      role: 'Mobile Lead @ CRED',
-      image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community6,
     },
   },
   {
     type: 'single',
     card: {
-      name: 'Sameer Choudhury',
-      role: 'Cloud Infrastructure @ Razorpay',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community7,
     },
   },
   {
     type: 'stacked',
     topCard: {
-      name: 'Rohit K.',
-      role: 'Data Engineer @ PhonePe',
-      image: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community8,
     },
     bottomCard: {
-      name: 'Tanvi Joshi',
-      role: 'Product Engineer @ Zepto',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community9,
     },
   },
   {
     type: 'single',
     card: {
-      name: 'Aarav Sharma',
-      role: 'SDE-II Backend @ Google Cloud',
-      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community1,
     },
   },
   {
     type: 'stacked',
     topCard: {
-      name: 'Meera Patel',
-      role: 'AI Engineer @ Cohere',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community2,
     },
     bottomCard: {
-      name: 'Kabir Verma',
-      role: 'Security Engineer @ Coinbase',
-      image: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80',
+      name: '',
+      role: '',
+      image: community3,
     },
   },
 ];
@@ -224,7 +234,7 @@ export const Achivements: React.FC<AchivementsProps> = ({ onOpenContact }) => {
   return (
     <section
       id="achievements"
-      className="achievements-section relative w-full bg-[#F7F7F2] py-14 sm:py-20 px-4 sm:px-6 lg:px-8 select-none"
+      className="achievements-section relative w-full bg-[#F7F7F2] pt-10 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 select-none"
     >
       {/* Outer rounded card container with soft pastel gradient like reference */}
       <div className="relative mx-auto max-w-7xl rounded-[2.5rem] bg-gradient-to-br from-[#FFF2F5] via-[#FCFBF8] to-[#F1F8F5] border border-black/[0.06] shadow-[0_12px_45px_-10px_rgba(0,0,0,0.06)] overflow-hidden pt-12 pb-10 sm:pt-16 sm:pb-12">
@@ -273,18 +283,6 @@ export const Achivements: React.FC<AchivementsProps> = ({ onOpenContact }) => {
                       className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
-                    {/* Dark gradient for crisp text readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-4 left-4 right-4 z-10 text-left">
-                      <h3 className="text-white text-base sm:text-lg font-bold leading-tight drop-shadow-md">
-                        {col.card.name}
-                      </h3>
-                      {col.card.role && (
-                        <p className="text-white/80 text-[11px] font-medium mt-0.5 line-clamp-1 drop-shadow-sm">
-                          {col.card.role}
-                        </p>
-                      )}
-                    </div>
                   </div>
                 ) : (
                   /* Two Stacked Cards (each h-[157px] + 16px gap = 330px/360px total) */
@@ -297,17 +295,6 @@ export const Achivements: React.FC<AchivementsProps> = ({ onOpenContact }) => {
                         className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-                      <div className="absolute bottom-3 left-3.5 right-3.5 z-10 text-left">
-                        <h3 className="text-white text-sm sm:text-base font-bold leading-tight drop-shadow-md">
-                          {col.topCard.name}
-                        </h3>
-                        {col.topCard.role && (
-                          <p className="text-white/80 text-[10px] sm:text-[11px] font-medium mt-0.5 line-clamp-1 drop-shadow-sm">
-                            {col.topCard.role}
-                          </p>
-                        )}
-                      </div>
                     </div>
 
                     {/* Bottom Card */}
@@ -318,17 +305,6 @@ export const Achivements: React.FC<AchivementsProps> = ({ onOpenContact }) => {
                         className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-                      <div className="absolute bottom-3 left-3.5 right-3.5 z-10 text-left">
-                        <h3 className="text-white text-sm sm:text-base font-bold leading-tight drop-shadow-md">
-                          {col.bottomCard.name}
-                        </h3>
-                        {col.bottomCard.role && (
-                          <p className="text-white/80 text-[10px] sm:text-[11px] font-medium mt-0.5 line-clamp-1 drop-shadow-sm">
-                            {col.bottomCard.role}
-                          </p>
-                        )}
-                      </div>
                     </div>
                   </div>
                 )}

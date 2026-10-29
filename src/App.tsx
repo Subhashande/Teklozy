@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './components/sections/Header';
 import { HeroSection } from './components/sections/HeroSection';
 import { JourneySection } from './components/sections/JourneySection';
+import CollaborationSection from './components/sections/CollaborationSection';
 import { Achivements } from './components/sections/achivements';
 import { Footer } from './components/layout/Footer';
 import { ContactUsModal } from './components/ui/ContactUsModal';
@@ -139,6 +140,9 @@ export default function App() {
           onScrollToLevel={scrollToLevel}
           onOpenContact={() => setShowContactModal(true)}
         />
+
+      {/* Collaboration Section */}
+      <CollaborationSection />
 
         {/* 4. Alumni Achievements & Testimonial Inspirations Infinite 3D Carousel */}
         <Achivements onOpenContact={() => setShowContactModal(true)} />
