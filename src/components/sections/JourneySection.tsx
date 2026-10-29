@@ -145,13 +145,6 @@ export const JourneySection: React.FC<JourneySectionProps> = ({
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <button
-              type="button"
-              onClick={() => onScrollToLevel(1)}
-              className="px-6 py-3.5 rounded-full border border-[#D9D7CC] text-sm font-bold text-[#131209] hover:bg-slate-50 transition-colors"
-            >
-              Back to Start
-            </button>
 
             <button
               type="button"

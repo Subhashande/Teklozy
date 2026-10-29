@@ -148,6 +148,7 @@ export default function App() {
           brandName="Teklozy"
           onBackToTop={scrollToTop}
           onNavigateToLevel={scrollToLevel}
+          onOpenContact={() => setShowContactModal(true)}
         />
 
         {/* 6. Contact Us Modal (Form + Social Links for Students & Management) */}

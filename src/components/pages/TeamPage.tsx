@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   ArrowLeft,
   ArrowRight,
-  Sparkles,
   Users,
   Heart,
   Globe,
@@ -10,7 +9,6 @@ import {
 import logoPng from '../../assets/images/erasebg-teklozy.png';
 import { Footer } from '../layout/Footer';
 
-import teloMascot from '../../assets/mascot/telo-mascot.png';
 import {
   TEAM_MEMBERS,
   TEAM_CATEGORIES,
@@ -110,9 +108,9 @@ export const TeamPage: React.FC<TeamPageProps> = ({
       {/* 2. Hero Section: Direct Match with Reference Mockup */}
       <section className="relative overflow-hidden pt-10 pb-14 sm:pt-16 sm:pb-20 border-b border-slate-200/70 bg-gradient-to-b from-sky-50/40 via-white to-[#F8FAFC]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             {/* Left Content */}
-            <div className="lg:col-span-7 space-y-5">
+            <div className="lg:col-span-6 xl:col-span-5 space-y-5">
               <div className="inline-block px-3 py-1 rounded-full bg-sky-100/80 text-sky-700 text-[11px] font-bold uppercase tracking-wider">
                 OUR TEAM
               </div>
@@ -169,28 +167,18 @@ export const TeamPage: React.FC<TeamPageProps> = ({
               </div>
             </div>
 
-            {/* Right Illustration: Mascot Card */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-full max-w-sm rounded-3xl bg-gradient-to-b from-[#BAE6FD]/40 via-sky-100/30 to-blue-50/50 p-6 border border-sky-100 flex flex-col items-center justify-center text-center shadow-sm">
-                {/* Floating Signboard Badge */}
-                <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-xs px-3 py-1.5 rounded-xl shadow-xs border border-white text-slate-800 text-xs font-bold -rotate-3">
-                  <span className="text-[#0088E0]">Better Learners</span>
-                  <br />
-                  <span>Brighter Futures</span>
-                </div>
+            {/* Right Graphic: Our Team Hero Image (Frameless, High-Res, Expanded Size) */}
+            <div className="lg:col-span-6 xl:col-span-7 flex justify-center lg:justify-end items-center">
+              <div className="relative w-full max-w-xl lg:max-w-2xl xl:max-w-3xl group">
+                {/* Subtle Atmospheric Ambient Glow */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-sky-300/30 via-blue-200/20 to-cyan-300/30 rounded-3xl blur-3xl opacity-60 pointer-events-none group-hover:opacity-85 transition-opacity duration-500" />
 
-                {/* Team Mascot */}
-                <div className="w-44 h-44 sm:w-52 sm:h-52 my-3 relative">
-                  <img
-                    src={teloMascot}
-                    alt="Teklozy Team Mascot"
-                    className="w-full h-full object-contain filter drop-shadow-lg"
-                  />
-                </div>
-
-                <div className="mt-2 bg-white/90 backdrop-blur-xs px-4 py-1.5 rounded-full border border-white/80 shadow-2xs">
-                  <span className="text-xs font-bold text-slate-700">Team Teklozy</span>
-                </div>
+                <img
+                  src="/images/ourTeamimg.png"
+                  alt="Teklozy Team"
+                  className="relative z-10 w-full h-auto object-contain drop-shadow-2xl transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+                  loading="eager"
+                />
               </div>
             </div>
           </div>
@@ -267,6 +255,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
       <Footer
         brandName="Teklozy"
         onBackToTop={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        onOpenContact={onOpenContact}
       />
     </div>
   );
