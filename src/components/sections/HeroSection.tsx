@@ -11,12 +11,14 @@ interface HeroSectionProps {
   activeLevelId: number;
   onScrollToLevel: (levelId: number) => void;
   onOpenContact?: () => void;
+  onOpenLogin?: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   activeLevelId,
   onScrollToLevel,
   onOpenContact,
+  onOpenLogin,
 }) => {
   return (
     <div className="relative font-manrope">
@@ -42,7 +44,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Action Buttons */}
           <div className="hero__actions flex flex-wrap items-center gap-3.5 sm:gap-4">
             <button
-              onClick={() => onScrollToLevel(1)}
+              onClick={() => onOpenLogin ? onOpenLogin() : onScrollToLevel(1)}
               className="hero__primary group"
               title="Start Your Journey"
             >

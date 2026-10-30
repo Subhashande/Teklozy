@@ -23,12 +23,14 @@ interface TeamPageProps {
   onNavigateHome: () => void;
   onOpenContact: () => void;
   onOpenLogin: () => void;
+  onScrollToLevel?: (levelId: number) => void;
 }
 
 export const TeamPage: React.FC<TeamPageProps> = ({
   onNavigateHome,
   onOpenContact,
   onOpenLogin,
+  onScrollToLevel,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<TeamCategory>('All');
 
@@ -129,7 +131,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <button
                   type="button"
-                  onClick={onNavigateHome}
+                  onClick={() => (onOpenLogin ? onOpenLogin() : onScrollToLevel?.(1))}
                   className="bg-[#0088E0] hover:bg-[#0077CC] text-white text-xs sm:text-sm font-bold px-6 py-2.5 rounded-full inline-flex items-center gap-2 transition-all shadow-xs hover:shadow-md cursor-pointer"
                 >
                   <span>Join Our Journey</span>
@@ -143,7 +145,7 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                   }}
                   className="bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold px-6 py-2.5 rounded-full border border-slate-200 hover:border-slate-300 transition-all cursor-pointer shadow-2xs"
                 >
-                  Explore Teklozy
+                  Explore Our Team
                 </button>
               </div>
 
@@ -228,17 +230,6 @@ export const TeamPage: React.FC<TeamPageProps> = ({
           ))}
         </div>
 
-        {/* View More Team Members Action */}
-        <div className="mt-12 text-center">
-          <button
-            type="button"
-            onClick={onOpenContact}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-sky-300 text-[#0088E0] hover:bg-sky-50 text-xs sm:text-sm font-bold transition-all shadow-2xs cursor-pointer"
-          >
-            <span>View More Team Members</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
       </section>
 
       {/* 4. What Drives Us (Our Values) */}

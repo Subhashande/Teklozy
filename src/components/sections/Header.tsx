@@ -4,6 +4,7 @@ import logoPng from '../../assets/images/erasebg-teklozy.png';
 
 interface HeaderProps {
   onScrollToLevel: (levelId: number) => void;
+  onScrollToAchievements?: () => void;
   onOpenContact: () => void;
   onOpenLogin: () => void;
   onOpenTeam?: () => void;
@@ -16,6 +17,7 @@ interface HeaderProps {
  */
 export const Header: React.FC<HeaderProps> = ({
   onScrollToLevel,
+  onScrollToAchievements,
   onOpenContact,
   onOpenLogin,
   onOpenTeam,
@@ -86,14 +88,21 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => handleNavClick(2)}
+              onClick={() => handleNavClick(1)}
               className="hover:text-white transition-colors cursor-pointer drop-shadow-xs"
             >
               Career Levels
             </button>
             <button
               type="button"
-              onClick={() => handleNavClick(7)}
+              onClick={() => {
+                if (onScrollToAchievements) {
+                  onScrollToAchievements();
+                } else {
+                  handleNavClick(7);
+                }
+                setMobileMenuOpen(false);
+              }}
               className="hover:text-white transition-colors cursor-pointer drop-shadow-xs"
             >
               Success Stories
@@ -163,7 +172,14 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => handleNavClick(7)}
+                onClick={() => {
+                  if (onScrollToAchievements) {
+                    onScrollToAchievements();
+                  } else {
+                    handleNavClick(7);
+                  }
+                  setMobileMenuOpen(false);
+                }}
                 className="text-left px-3 py-2 rounded-xl hover:bg-white/10 hover:text-white transition-colors"
               >
                 Success Stories

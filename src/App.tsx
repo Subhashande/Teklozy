@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './components/sections/Header';
 import { HeroSection } from './components/sections/HeroSection';
 import { JourneySection } from './components/sections/JourneySection';
-import CollaborationSection from './components/sections/CollaborationSection';
 import { Achivements } from './components/sections/achivements';
 import { Footer } from './components/layout/Footer';
 import { ContactUsModal } from './components/ui/ContactUsModal';
@@ -25,6 +24,7 @@ export default function App() {
   });
 
   const {
+    lenisRef,
     activeLevelId,
     setActiveLevelId,
     scrollToLevel,
@@ -75,6 +75,17 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const scrollToAchievements = () => {
+    const el = document.getElementById('achievements');
+    if (el) {
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(el, { offset: -40, duration: 1.2 });
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
   // If viewing the dedicated Login Page
   if (currentView === 'login') {
     return (
@@ -101,6 +112,10 @@ export default function App() {
           onNavigateHome={navigateToHome}
           onOpenContact={() => setShowContactModal(true)}
           onOpenLogin={navigateToLogin}
+          onScrollToLevel={(levelId) => {
+            navigateToHome();
+            setTimeout(() => scrollToLevel(levelId), 200);
+          }}
         />
         <ContactUsModal
           isOpen={showContactModal}
@@ -121,6 +136,7 @@ export default function App() {
         {/* 1. Floating Capsule Header with Separate Login & Contact Us */}
         <Header
           onScrollToLevel={scrollToLevel}
+          onScrollToAchievements={scrollToAchievements}
           onOpenContact={() => setShowContactModal(true)}
           onOpenLogin={navigateToLogin}
           onOpenTeam={navigateToTeam}
@@ -131,6 +147,7 @@ export default function App() {
           activeLevelId={activeLevelId}
           onScrollToLevel={scrollToLevel}
           onOpenContact={() => setShowContactModal(true)}
+          onOpenLogin={navigateToLogin}
         />
 
         {/* 3. 10-Level Scroll River Path Journey */}
@@ -141,10 +158,7 @@ export default function App() {
           onOpenContact={() => setShowContactModal(true)}
         />
 
-      {/* Collaboration Section */}
-      <CollaborationSection />
-
-        {/* 4. Alumni Achievements & Testimonial Inspirations Infinite 3D Carousel */}
+        {/* 4. Success Stories from Our Community (Combined Achievements & Collaboration) */}
         <Achivements onOpenContact={() => setShowContactModal(true)} />
 
         {/* 5. Statement Footer */}
