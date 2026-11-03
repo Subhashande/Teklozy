@@ -90,3 +90,7 @@ npm run build
 # Preview the production build locally
 npm run preview
 ```
+
+## Supabase backend (landing page)
+
+The landing page's authentication and Contact Us flows are connected to Supabase Auth and Postgres. See [BACKEND_SETUP.md](./BACKEND_SETUP.md) for project setup, environment variables, migration instructions, OAuth configuration, management-role provisioning, and production checks. Run `supabase/migrations/202610300001_initial_landing_page_backend.sql` in the Supabase SQL Editor before testing the forms.

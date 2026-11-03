@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import logoPng from '../../assets/images/erasebg-teklozy.png';
+import { submitContactMessage } from '../../lib/supabase';
 
 interface ContactUsModalProps {
   isOpen: boolean;
@@ -56,6 +57,7 @@ export const ContactUsModal: React.FC<ContactUsModalProps> = ({
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   // Sync default topic when audience changes or modal opens
   useEffect(() => {
@@ -120,31 +122,30 @@ export const ContactUsModal: React.FC<ContactUsModalProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate() || isSubmitting) return;
 
     setIsSubmitting(true);
-
-    // Simulate reliable submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setSubmitError('');
+    try {
+      await submitContactMessage(formData);
       setIsSubmitted(true);
       try {
-        confetti({
-          particleCount: 70,
-          spread: 60,
-          origin: { y: 0.6 },
-          colors: ['#0088E0', '#00B4D8', '#10B981'],
-        });
+        confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 }, colors: ['#0088E0', '#00B4D8', '#10B981'] });
       } catch {
-        // Fallback gracefully if canvas-confetti is not available
+        // Submission has already succeeded; animation is optional.
       }
-    }, 600);
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'We could not submit your message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setIsSubmitted(false);
+    setSubmitError('');
     setFormData({
       fullName: '',
       email: '',
@@ -222,7 +223,7 @@ export const ContactUsModal: React.FC<ContactUsModalProps> = ({
                 <p className="text-sm text-slate-600 max-w-sm leading-relaxed">
                   Thank you, <span className="font-semibold text-slate-900">{formData.fullName}</span>. 
                   We’ve received your inquiry regarding <span className="font-medium text-[#0088E0]">{formData.topic}</span>. 
-                  Our team will reply to <span className="font-semibold text-slate-900">{formData.email}</span> within 24 hours.
+                  Our team has received your message and will review your inquiry.
                 </p>
                 <div className="pt-2 flex items-center gap-3">
                   <button
@@ -243,6 +244,9 @@ export const ContactUsModal: React.FC<ContactUsModalProps> = ({
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                {submitError && (
+                  <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{submitError}</div>
+                )}
                 {/* Field 1: Full Name */}
                 <div>
                   <label

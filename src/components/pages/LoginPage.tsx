@@ -18,6 +18,7 @@ import {
 import confetti from 'canvas-confetti';
 import logoPng from '../../assets/images/erasebg-teklozy.png';
 import loginSideImg from '../../assets/images/loginsideimg2.png';
+import { completeOAuthCallback, getUserRole, requestPasswordReset, signIn, signInWithOAuth, signOut, signUp, updatePassword } from '../../lib/supabase';
 
 export type UserRole = 'student' | 'teacher' | 'management';
 
@@ -48,10 +49,26 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   // Submission / Loading states
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [authError, setAuthError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [isRecoveryMode, setIsRecoveryMode] = useState(false);
 
   const isSignUp = mode === 'signup';
 
   // Lock outer document body scroll so scrolling is contained inside the form
+  useEffect(() => {
+    const recoveryLink = window.location.hash.includes('type=recovery');
+    setIsRecoveryMode(recoveryLink);
+    completeOAuthCallback().then((completed) => {
+      if (completed && !recoveryLink) {
+        setSuccessMessage('You have signed in with your connected identity provider.');
+        setIsSuccess(true);
+      }
+    }).catch((error) => {
+      setAuthError(error instanceof Error ? error.message : 'Could not complete social sign-in.');
+    });
+  }, []);
+
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -60,24 +77,69 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim() || !password.trim()) return;
+    if ((!isRecoveryMode && !email.trim()) || !password.trim() || isLoading) return;
 
     setIsLoading(true);
-    setTimeout(() => {
+    setAuthError('');
+    setSuccessMessage('');
+    try {
+      if (isRecoveryMode) {
+        await updatePassword(password);
+        setIsRecoveryMode(false);
+        setIsSuccess(true);
+        setSuccessMessage('Your password has been updated. You can now log in with your new password.');
+        return;
+      }
+      if (isSignUp) {
+        if (role === 'management') {
+          throw new Error('Management accounts cannot be self-registered. Please contact Teklozy to have an administrator account provisioned.');
+        }
+        const result = await signUp({ email, password, fullName, institutionName, role });
+        setIsSuccess(true);
+        if (!result.access_token) {
+          setSuccessMessage('Your account has been created. Please verify your email using the confirmation link we sent before logging in.');
+          return;
+        }
+        setSuccessMessage('Your account is ready. You are now signed in.');
+      } else {
+        const session = await signIn(email, password, rememberMe);
+        const actualRole = await getUserRole(session.user.id, session.access_token);
+        if (actualRole !== role) {
+          await signOut();
+          throw new Error(`This account is registered as ${actualRole}. Select the ${actualRole === 'teacher' ? 'Mentor' : actualRole === 'management' ? 'Management' : 'Student'} role to continue.`);
+        }
+        setIsSuccess(true);
+        setSuccessMessage(`Signed in successfully to your ${roleDetails.title}.`);
+      }
+      try {
+        confetti({ particleCount: 90, spread: 75, origin: { y: 0.6 }, colors: ['#0088E0', '#00D2FF', '#10B981', '#6366F1'] });
+      } catch { /* Optional success animation. */ }
+      window.setTimeout(onNavigateHome, 1600);
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'Authentication failed. Please try again.');
+    } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      setAuthError('Enter your email address first, then select Forgot Password.');
+      return;
+    }
+    setIsLoading(true);
+    setAuthError('');
+    try {
+      await requestPasswordReset(email);
+      setSuccessMessage('If an account exists for this email, Supabase has sent a password reset link.');
       setIsSuccess(true);
-      confetti({
-        particleCount: 90,
-        spread: 75,
-        origin: { y: 0.6 },
-        colors: ['#0088E0', '#00D2FF', '#10B981', '#6366F1'],
-      });
-      setTimeout(() => {
-        onNavigateHome();
-      }, 2000);
-    }, 600);
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'Could not request a password reset.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getRoleDetails = () => {
@@ -256,14 +318,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <CheckCircle2 className="w-7 h-7" />
                 </div>
                 <h3 className="font-display font-bold text-xl text-slate-900">
-                  {isSignUp ? 'Registration Successful!' : 'Login Successful!'}
+                  {successMessage.startsWith('If an account') || successMessage.includes('verify your email') ? 'Check your email' : isRecoveryMode || successMessage.includes('password has been updated') ? 'Password updated' : isSignUp ? 'Registration received' : 'Login successful'}
                 </h3>
-                <p className="text-xs text-slate-600">
-                  Welcome to <span className="font-semibold text-slate-900">{roleDetails.title}</span>. Redirecting you...
-                </p>
+                <p className="text-xs text-slate-600">{successMessage || `Welcome to ${roleDetails.title}.`}</p>
               </div>
             ) : (
               <>
+                {authError && <div role="alert" className="mb-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">{authError}</div>}
                 {/* 4. Credentials Form */}
                 <form onSubmit={handleSubmit} className="space-y-2">
                   {isSignUp && (
@@ -312,7 +373,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       <Mail className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
                       <input
                         type="email"
-                        required
+                        required={!isRecoveryMode}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder={roleDetails.emailPlaceholder}
@@ -324,12 +385,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <div>
                     <div className="flex items-center justify-between mb-0.5">
                       <label className="text-xs font-semibold text-slate-700">
-                        Password
+                        {isRecoveryMode ? 'New Password' : 'Password'}
                       </label>
                       {!isSignUp && (
                         <button
                           type="button"
-                          onClick={() => alert('Password reset link will be sent to your email.')}
+                          onClick={handleForgotPassword}
                           className="text-[11px] font-semibold text-[#0088E0] hover:underline transition-colors cursor-pointer"
                         >
                           Forgot Password ?
@@ -341,9 +402,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       <input
                         type={showPassword ? 'text' : 'password'}
                         required
+                        minLength={8}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="••••••••••••"
+                        placeholder={isRecoveryMode ? 'Enter your new password' : '••••••••••••'}
                         className="w-full pl-9 pr-9 py-1.5 sm:py-2 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#0088E0] focus:ring-1 focus:ring-[#0088E0]/20"
                       />
                       <button
@@ -397,13 +459,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => {
-                      setIsLoading(true);
-                      setTimeout(() => {
-                        setIsLoading(false);
-                        setIsSuccess(true);
-                      }, 600);
-                    }}
+                    onClick={() => { try { signInWithOAuth('google'); } catch (error) { setAuthError(error instanceof Error ? error.message : 'Google sign-in is unavailable.'); } }}
                     className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-all shadow-2xs cursor-pointer truncate"
                   >
                     <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
@@ -430,13 +486,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   {role === 'management' ? (
                     <button
                       type="button"
-                      onClick={() => {
-                        setIsLoading(true);
-                        setTimeout(() => {
-                          setIsLoading(false);
-                          setIsSuccess(true);
-                        }, 600);
-                      }}
+                      onClick={() => setAuthError('Campus SSO is not configured for this Supabase project. Please use email and password.')}
                       className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-50 text-indigo-900 font-semibold text-xs transition-all shadow-2xs cursor-pointer truncate"
                     >
                       <Building2 className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
@@ -445,13 +495,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   ) : (
                     <button
                       type="button"
-                      onClick={() => {
-                        setIsLoading(true);
-                        setTimeout(() => {
-                          setIsLoading(false);
-                          setIsSuccess(true);
-                        }, 600);
-                      }}
+                      onClick={() => { try { signInWithOAuth('github'); } catch (error) { setAuthError(error instanceof Error ? error.message : 'GitHub sign-in is unavailable.'); } }}
                       className="flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-all shadow-2xs cursor-pointer truncate"
                     >
                       <svg className="w-3.5 h-3.5 fill-slate-900 shrink-0" viewBox="0 0 24 24">
