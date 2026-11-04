@@ -1,0 +1,489 @@
+/* Teklozy responsive system: phone, tablet and desktop */
+:root { color-scheme: light; }
+html { width: 100%; min-width: 320px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { width: 100%; min-width: 320px; overflow-x: clip; }
+*, *::before, *::after { box-sizing: border-box; }
+img, svg, video, canvas { max-width: 100%; }
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+#root { min-height: 100vh; min-height: 100svh; overflow-x: clip; }
+
+/* Navigation: keep all four links on desktop; use a comfortable drawer below 1024px. */
+.tk-site-header { padding-left: max(12px, env(safe-area-inset-left)); padding-right: max(12px, env(safe-area-inset-right)); }
+.tk-site-nav { min-height: 58px; }
+.tk-mobile-drawer { max-height: min(72dvh, 480px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+
+/* Team page layout */
+.tk-team-grid { align-items: stretch; }
+.tk-team-grid > * { min-width: 0; }
+.tk-team-metrics > * { min-width: 0; }
+.tk-team-metrics span { overflow-wrap: anywhere; }
+
+/* Footer columns should never become cramped on narrow tablets. */
+.tk-footer-links > * { min-width: 0; }
+.tk-footer-links button, .tk-footer-links a { overflow-wrap: anywhere; }
+
+/* Login: natural page scrolling on mobile/tablet, contained split panel on desktop. */
+.tk-login-shell { min-height: 100vh; min-height: 100svh; height: auto; max-height: none; overflow: visible; align-items: flex-start; }
+.tk-login-card { height: auto; max-height: none; min-height: 0; overflow: visible; }
+.tk-login-form { height: auto; max-height: none; overflow: visible; }
+
+/* Contact dialog: scroll the dialog itself on short screens. */
+.tk-contact-dialog { max-height: calc(100dvh - 24px); overflow-y: auto; overscroll-behavior: contain; }
+
+@media (max-width: 1023px) {
+  .tk-site-header { padding-top: 10px !important; }
+  .tk-site-header > div { padding-left: 8px !important; padding-right: 8px !important; }
+  .tk-site-nav { border-radius: 24px !important; padding: 9px 14px !important; gap: 10px !important; }
+  .tk-site-nav > div:first-child { gap: 8px !important; }
+  .tk-site-nav > div:first-child img { width: 36px; height: 42px; }
+  .tk-site-nav > div:first-child span { font-size: 21px !important; }
+  .tk-team-hero { padding-top: 112px !important; }
+  .tk-team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tk-footer-links { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; row-gap: 30px; }
+  .tk-footer-links > *:last-child { grid-column: 1 / -1; }
+  .tk-login-shell { padding: 18px; }
+  .tk-login-card { width: min(100%, 720px); margin: auto; }
+  .tk-login-form { width: 100%; padding: 12px clamp(12px, 4vw, 28px); }
+}
+
+@media (max-width: 767px) {
+  html { scroll-padding-top: 84px; }
+  .tk-site-header { padding-top: 8px !important; }
+  .tk-site-nav { min-height: 54px; border-radius: 22px !important; padding: 7px 12px !important; }
+  .tk-site-nav > div:first-child img { width: 32px; height: 38px; }
+  .tk-site-nav > div:first-child span { font-size: 19px !important; }
+  .tk-mobile-drawer { border-radius: 20px !important; padding: 14px !important; }
+
+  /* Hero and content gutters */
+  .hero { padding-left: 20px !important; padding-right: 20px !important; padding-top: 104px !important; padding-bottom: 48px !important; }
+  .hero h1 { font-size: clamp(2.15rem, 9vw, 3.35rem) !important; line-height: 1.08 !important; overflow-wrap: normal; }
+  .hero p { font-size: 15px !important; line-height: 1.65 !important; }
+  .hero__actions { width: 100%; }
+  .hero__actions button, .hero__primary { min-height: 46px; }
+  .spotlight { gap: 56px !important; padding-left: 18px !important; padding-right: 18px !important; }
+  .spotlight .row { min-width: 0; }
+  .spotlight .row h2 { font-size: clamp(1.8rem, 7.5vw, 2.6rem) !important; }
+  .spotlight .row p { font-size: 14px !important; }
+  .spotlight .row img { max-height: 320px; object-fit: contain; }
+
+  /* Team page */
+  .tk-team-hero { padding-top: 104px !important; padding-bottom: 44px !important; }
+  .tk-team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px !important; }
+  .tk-team-metrics { gap: 8px !important; }
+  .tk-team-metrics > * { flex-direction: column; align-items: flex-start; gap: 6px !important; }
+  .tk-team-metrics > * > div:last-child { min-width: 0; }
+  .tk-team-metrics span { font-size: 10px !important; }
+  .tk-footer-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Login screen: one-column form, no clipped content or forced desktop height. */
+  .tk-login-shell { padding: 10px !important; }
+  .tk-login-card { min-height: 0 !important; }
+  .tk-login-card { width: 100%; padding: 12px !important; border-radius: 22px !important; gap: 12px !important; }
+  .tk-login-form { padding: 8px 4px !important; gap: 12px; }
+  .tk-login-form > div:first-child { gap: 8px; }
+  .tk-login-form > div:first-child button:last-child { white-space: nowrap; }
+  .tk-login-form > div:nth-child(2) { padding-top: 8px; padding-bottom: 8px; }
+  .tk-login-form input { min-height: 44px; font-size: 16px; }
+  .tk-login-form button { touch-action: manipulation; }
+  .tk-login-form .grid-cols-3 button { min-height: 42px; padding-left: 4px !important; padding-right: 4px !important; font-size: 11px !important; }
+
+  /* Contact modal */
+  .tk-contact-dialog { width: 100%; max-height: calc(100dvh - 16px); border-radius: 20px !important; }
+}
+
+@media (max-width: 420px) {
+  .tk-team-hero { padding-top: 96px !important; }
+  .tk-team-grid { grid-template-columns: 1fr; }
+  .tk-team-grid > * { max-width: 420px; width: 100%; margin-left: auto; margin-right: auto; }
+  .tk-team-metrics { grid-template-columns: 1fr !important; max-width: 100% !important; }
+  .tk-team-metrics > * { flex-direction: row; align-items: center; }
+  .tk-footer-links { grid-template-columns: 1fr; }
+  .tk-footer-links > *:last-child { grid-column: auto; }
+  .tk-login-form > div:nth-child(2) { width: 100%; }
+  .tk-login-form .grid-cols-3 { gap: 2px !important; }
+  .tk-login-form .grid-cols-3 button { font-size: 10px !important; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero { padding-left: 36px !important; padding-right: 36px !important; }
+  .tk-team-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tk-login-shell { padding: 24px !important; }
+  .tk-login-card { min-height: min(760px, calc(100svh - 48px)); }
+}
+
+@media (min-width: 1024px) {
+  .tk-login-shell { height: 100vh; height: 100svh; max-height: 100vh; max-height: 100svh; overflow: hidden; align-items: center; }
+  .tk-login-card { height: min(760px, 92vh); max-height: 760px; overflow: hidden; }
+  .tk-login-form { height: 100%; overflow-y: auto; }
+}
+
+/* Respect accessibility preferences and avoid hover-only interactions on touch screens. */
+@media (hover: none) {
+  .group:hover img { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* Hero art responsive crop: keep text legible and Teko visible on compact screens. */
+@media (max-width: 767px) {
+  .hero { min-height: 820px !important; background-size: auto 56% !important; background-position: right bottom !important; background-color: #EAF5FF !important; background-repeat: no-repeat !important; }
+  .hero__content { width: 100%; align-self: flex-start; }
+  .hero h1 { color: #10233F !important; }
+  .hero p { color: #405875 !important; }
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .hero { background-position: 58% center !important; }
+  .hero__content { max-width: 58%; }
+}
+
+
+/* Final mobile hero corrections: prevent clipping, keep contrast, and stack feature pills. */
+@media (max-width: 767px) {
+  .hero {
+    display: block !important;
+    width: 100%;
+    min-width: 0;
+    min-height: 0 !important;
+    padding: 104px 20px 250px !important;
+    overflow: clip !important;
+    background-color: #EAF5FF !important;
+    background-image: url("/teklozy-hero.webp");
+    background-repeat: no-repeat !important;
+    background-position: center bottom !important;
+    background-size: 100% auto !important;
+  }
+
+  .hero::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  .hero__content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .hero__eyebrow {
+    max-width: 100%;
+    font-size: 10px !important;
+    line-height: 1.5;
+    letter-spacing: 0.12em !important;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .hero h1 {
+    width: 100%;
+    max-width: 100% !important;
+    font-size: clamp(2rem, 8.5vw, 2.8rem) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.035em !important;
+    overflow-wrap: break-word !important;
+    word-break: normal;
+  }
+
+  .hero h1 span {
+    display: block;
+    max-width: 100%;
+  }
+
+  .hero p {
+    width: 100%;
+    max-width: 100% !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    overflow-wrap: break-word;
+  }
+
+  .hero__actions {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero__primary {
+    width: 100%;
+    max-width: 100%;
+    min-height: 48px;
+    justify-content: center;
+  }
+
+  .hero__content > div.mt-8 {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 10px !important;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hero__content > div.mt-8 > div {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    gap: 8px !important;
+    padding: 10px !important;
+    border-radius: 14px !important;
+    white-space: normal;
+  }
+
+  .hero__content > div.mt-8 > div > div:last-child,
+  .hero__content > div.mt-8 > div > div:last-child span {
+    min-width: 0;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+
+  .hero__content > div.mt-8 > div > div:first-child {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+  }
+
+  .hero__content > div.mt-8 > div span {
+    font-size: 11px !important;
+    line-height: 1.3;
+  }
+
+  .hero__content > div.mt-12 {
+    margin-top: 24px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    padding-bottom: 210px !important;
+  }
+
+  .hero__content > div.mt-8 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero__content > div.mt-8 > div {
+    max-width: 100%;
+  }
+}
+
+
+/* ================================================================
+   Mobile layout hardening — homepage + 10-level Career Journey
+   These rules intentionally target the real grid/content wrappers,
+   not only font sizes, so children cannot force a wider viewport.
+   ================================================================ */
+@media (max-width: 767px) {
+  html, body, #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important;
+  }
+
+  /* Career journey header */
+  .spotlight,
+  .spotlight > *,
+  .spotlight .row,
+  .spotlight .row > *,
+  .spotlight .row > div,
+  .spotlight .row > div > div {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .spotlight {
+    width: 100% !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    gap: 48px !important;
+    overflow-x: clip !important;
+  }
+
+  .spotlight .row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    gap: 18px !important;
+    overflow: visible !important;
+  }
+
+  .spotlight .row > div {
+    width: 100% !important;
+    grid-column: 1 / -1 !important;
+  }
+
+  .spotlight .row > div > div {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .spotlight .row h2,
+  .spotlight .row h3,
+  .spotlight .row p,
+  .spotlight .row span {
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  .spotlight .row h2 {
+    font-size: clamp(1.85rem, 8vw, 2.45rem) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.035em !important;
+    white-space: normal !important;
+  }
+
+  .spotlight .row p {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  /* Stage label must wrap without stretching the viewport. */
+  .spotlight .row [class*="rounded-full"] {
+    max-width: 100%;
+  }
+
+  .spotlight .row [class*="tracking-wider"] {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* Chips wrap into compact rows; no horizontal scrolling. */
+  .spotlight .row .flex.flex-wrap {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    gap: 8px !important;
+  }
+
+  .spotlight .row .flex.flex-wrap > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+  }
+
+  /* Illustration scales naturally beneath the text. */
+  .spotlight .row img {
+    display: block;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+
+  .spotlight .row [id^="level-img-"] {
+    min-height: 0 !important;
+    width: 100% !important;
+  }
+
+  .spotlight .row [id^="level-stage-anchor-"] {
+    top: 0.25rem !important;
+  }
+
+  /* Keep the continuous path inside the viewport. */
+  .spotlight .svg-container {
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .spotlight .svg-container svg {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* Journey title section */
+  .spotlight + section,
+  .outro {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  .outro > div {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 24px 18px !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .spotlight {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+    gap: 64px !important;
+  }
+
+  .spotlight .row {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 20px !important;
+  }
+
+  .spotlight .row > div {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .spotlight .row img {
+    width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+  }
+}
+
+/* Desktop: retain the intended two-column alternating editorial layout. */
+@media (min-width: 1024px) {
+  .spotlight .row {
+    min-width: 0;
+  }
+
+  .spotlight .row > div {
+    min-width: 0;
+  }
+
+  .spotlight .row img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .journey-editorial-header {
+    padding-top: 88px !important;
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    padding-bottom: 8px !important;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .journey-editorial-header > div {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 0 28px !important;
+  }
+
+  .journey-editorial-header h2 {
+    font-size: clamp(1.9rem, 8vw, 2.5rem) !important;
+    line-height: 1.12 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .journey-editorial-header p {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+}
