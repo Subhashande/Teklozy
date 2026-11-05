@@ -60,7 +60,7 @@ export interface TeamMetric {
  */
 import ctoPhoto from '../assets/team/cto-gagan.webp';
 import headAiPhoto from '../assets/team/head-of-ai-harsha.webp';
-import pranayPhoto from '../assets/team/ai-product-manager-pranay.webp';
+import pranayPhoto from '../assets/team/pranay.webp';
 import subashPhoto from '../assets/team/fde-subash.webp';
 
 export const TEAM_MEMBERS: TeamMember[] = [
