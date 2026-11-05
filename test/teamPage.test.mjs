@@ -3,20 +3,27 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 
-describe('Teklozy team page transparency checks', () => {
+describe('Teklozy team page roster', () => {
   const teamData = fs.readFileSync(path.resolve('src/data/teamData.ts'), 'utf8');
   const teamPage = fs.readFileSync(path.resolve('src/components/pages/TeamPage.tsx'), 'utf8');
+  const teamCard = fs.readFileSync(path.resolve('src/components/team/TeamCard.tsx'), 'utf8');
 
-  it('should not publish unconfirmed sample team profiles', () => {
-    assert.match(teamData, /TEAM_MEMBERS:\s*TeamMember\[\]\s*=\s*\[\]/);
+  it('publishes the four requested profiles in the requested order', () => {
+    const names = ['Gagan Dileep Vemula', 'Harsha Vardhan Dumpa', 'Tangirala Venkata Raghavendra Pranay', 'Subash'];
+    let previous = -1;
+    for (const name of names) {
+      const index = teamData.indexOf(`name: '${name}'`);
+      assert.ok(index > previous, `${name} should appear in the requested order`);
+      previous = index;
+    }
   });
 
-  it('should show a clear placeholder while real profiles are not supplied', () => {
-    assert.match(teamPage, /Team profiles are being updated/);
-    assert.match(teamPage, /once the details are confirmed/);
+  it('keeps Subash as a photo and details placeholder', () => {
+    assert.match(teamData, /id: 'subash'[\s\S]*?photoUrl: ''/);
+    assert.match(teamCard, /PHOTO COMING SOON/);
   });
 
-  it('should retain the team page and its shared navigation', () => {
+  it('retains the team page and its shared navigation', () => {
     assert.match(teamPage, /The people behind Teklozy/);
     assert.match(teamPage, /<Header/);
   });

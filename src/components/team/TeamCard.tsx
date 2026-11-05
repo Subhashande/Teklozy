@@ -35,15 +35,26 @@ interface TeamCardProps {
 
 export const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   return (
-    <div className="group bg-white rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-lg transition-all duration-300 p-3 sm:p-4 flex flex-col">
+    <div className="group bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-lg transition-all duration-300 p-3 sm:p-4 flex flex-col min-w-0">
       {/* Photo Container with soft sky-blue backdrop matching reference design */}
       <div className="relative w-full aspect-[4/4.2] rounded-xl overflow-hidden bg-gradient-to-b from-[#BAE6FD]/40 to-[#E0F2FE]/60 mb-3.5">
-        <img decoding="async"
-          src={member.photoUrl}
-          alt={member.name}
-          loading="lazy"
-          className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ease-out"
-        />
+        {member.photoUrl ? (
+          <img
+            src={member.photoUrl}
+            alt={`${member.name} – ${member.role}`}
+            loading={member.rankLevel === 1 ? 'eager' : 'lazy'}
+            fetchPriority={member.rankLevel === 1 ? 'high' : 'auto'}
+            decoding="async"
+            width={825}
+            height={1100}
+            className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ease-out"
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-sky-100 via-white to-blue-100 text-sky-800" aria-label="Profile photo placeholder">
+            <span className="flex h-20 w-20 items-center justify-center rounded-full border border-sky-200 bg-white/80 text-3xl font-extrabold shadow-sm">S</span>
+            <span className="mt-3 text-xs font-semibold tracking-wide text-slate-500">PHOTO COMING SOON</span>
+          </div>
+        )}
 
         {/* Role/Category Pill (Bottom Left of photo) */}
         <div className="absolute bottom-2.5 left-2.5 z-10">
@@ -56,10 +67,10 @@ export const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
       {/* Member Info */}
       <div className="flex-1 flex flex-col justify-between">
         <div>
-          <h3 className="font-display font-bold text-base text-slate-900 tracking-tight">
+          <h3 className="font-display font-bold text-sm sm:text-base leading-snug text-slate-900 tracking-tight break-words">
             {member.name}
           </h3>
-          <p className="text-xs font-semibold text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm font-semibold text-slate-500 mt-1">
             {member.role}
           </p>
           <p className="text-xs text-slate-500 leading-relaxed mt-2 line-clamp-2">

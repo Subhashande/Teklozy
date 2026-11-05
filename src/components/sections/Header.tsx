@@ -214,7 +214,7 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   className="w-full bg-white/10 hover:bg-white/20 text-white font-semibold text-sm py-2.5 rounded-full text-center transition-all border border-white/20 cursor-pointer"
                 >
-                  Log in
+                  Log in (3-Way Portal)
                 </button>
 
                 <button

@@ -66,30 +66,30 @@ export const TeamPage: React.FC<TeamPageProps> = ({
 
       {/* 2. Hero Section: Direct Match with Reference Mockup */}
       <section className="tk-team-hero relative overflow-hidden pt-32 pb-14 sm:pt-36 sm:pb-20 border-b border-slate-200/70 bg-gradient-to-b from-sky-50/40 via-white to-[#F8FAFC]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div className="max-w-[1540px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
             {/* Left Content */}
-            <div className="lg:col-span-6 xl:col-span-5 space-y-5">
+            <div className="lg:col-span-6 xl:col-span-5 space-y-5 lg:pr-2">
               <div className="inline-block px-3 py-1 rounded-full bg-sky-100/80 text-sky-700 text-[11px] font-bold uppercase tracking-wider">
                 OUR TEAM
               </div>
 
-              <h1 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight leading-[1.15]">
+              <h1 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-[56px] text-slate-900 tracking-tight leading-[1.07] max-w-[650px]">
                 A passionate team building the future of{' '}
                 <span className="text-[#0088E0]">student careers.</span>
               </h1>
 
-              <p className="text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed">
+              <p className="text-sm sm:text-base lg:text-[19px] text-slate-600 max-w-[650px] leading-[1.6]">
                 We are a group of builders, designers, educators and dreamers working together to create
                 a platform that helps students learn, build real skills and get hired.
               </p>
 
               {/* CTAs */}
-              <div className="pt-2 flex flex-wrap items-center gap-3">
+              <div className="pt-2 flex flex-wrap items-center gap-3.5">
                 <button
                   type="button"
                   onClick={() => (onOpenLogin ? onOpenLogin() : onScrollToLevel?.(1))}
-                  className="bg-[#0088E0] hover:bg-[#0077CC] text-white text-xs sm:text-sm font-bold px-6 py-2.5 rounded-full inline-flex items-center gap-2 transition-all shadow-xs hover:shadow-md cursor-pointer"
+                  className="bg-[#0088E0] hover:bg-[#0077CC] text-white text-sm font-bold px-7 py-3 rounded-full inline-flex items-center gap-2 transition-all shadow-xs hover:shadow-md cursor-pointer"
                 >
                   <span>Join Our Journey</span>
                   <ArrowRight className="w-4 h-4" />
@@ -100,14 +100,14 @@ export const TeamPage: React.FC<TeamPageProps> = ({
                   onClick={() => {
                     document.getElementById('team-roster')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-semibold px-6 py-2.5 rounded-full border border-slate-200 hover:border-slate-300 transition-all cursor-pointer shadow-2xs"
+                  className="bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold px-7 py-3 rounded-full border border-slate-200 hover:border-slate-300 transition-all cursor-pointer shadow-2xs"
                 >
                   Explore Our Team
                 </button>
               </div>
 
               {/* Metrics Row */}
-              <div className="tk-team-metrics pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-4 max-w-md">
+              <div className="tk-team-metrics pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-4 max-w-[620px]">
                 {TEAM_METRICS.map((metric) => (
                   <div key={metric.id} className="flex items-start gap-2.5">
                     <div className="p-2 rounded-xl bg-white border border-slate-200/80 shadow-2xs shrink-0">
@@ -128,14 +128,14 @@ export const TeamPage: React.FC<TeamPageProps> = ({
 
             {/* Right Graphic: Our Team Hero Image (Frameless, High-Res, Expanded Size) */}
             <div className="lg:col-span-6 xl:col-span-7 flex justify-center lg:justify-end items-center">
-              <div className="relative w-full max-w-xl lg:max-w-2xl xl:max-w-3xl group">
+              <div className="relative w-full max-w-none group">
                 {/* Subtle Atmospheric Ambient Glow */}
                 <div className="absolute -inset-4 bg-gradient-to-r from-sky-300/30 via-blue-200/20 to-cyan-300/30 rounded-3xl blur-3xl opacity-60 pointer-events-none group-hover:opacity-85 transition-opacity duration-500" />
 
                 <img decoding="async"
                   src="/images/ourTeamimg.png"
                   alt="Teklozy team illustration" width={1536} height={1024} fetchPriority="high"
-                  className="relative z-10 w-full h-auto object-contain drop-shadow-2xl transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+                  className="relative z-10 block w-full h-auto object-contain drop-shadow-2xl transition-transform duration-500 ease-out group-hover:scale-[1.01]"
                   loading="eager"
                 />
               </div>

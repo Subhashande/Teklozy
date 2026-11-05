@@ -45,3 +45,13 @@ The ZIP structure and included source files were checked. A production build cou
 - Constrained the SVG path container to avoid horizontal overflow on phones.
 - Added no new images and preserved the existing artwork.
 - Automated source tests: 17/17 passed. Production build and real-device browser checks still require running in the user's environment.
+
+
+## November 5, 2026 – Mobile and team roster update
+- Added the supplied CTO, Head of AI, and AI Product Manager profiles in the requested order, with their provided LinkedIn and GitHub links.
+- Added Subash as the fourth team card with a clear photo/details placeholder.
+- Optimized the three supplied team photos to lightweight WebP assets for faster loading.
+- Switched the team-page hero illustration to its existing optimized WebP version.
+- Tightened mobile footer vertical spacing while increasing footer link and copyright text readability.
+- Reduced excess spacing around the mobile team roster and kept the four cards in a balanced two-column phone layout.
+- Added automated checks for the team roster order and Subash placeholder.

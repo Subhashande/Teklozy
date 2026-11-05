@@ -58,7 +58,69 @@ export interface TeamMetric {
 /**
  * Add only confirmed team member profiles here.
  */
-export const TEAM_MEMBERS: TeamMember[] = []; // Populate only with approved, real team profiles.
+import ctoPhoto from '../assets/team/cto-gagan.webp';
+import headAiPhoto from '../assets/team/head-of-ai-harsha.webp';
+import pranayPhoto from '../assets/team/ai-product-manager-pranay.webp';
+import subashPhoto from '../assets/team/fde-subash.webp';
+
+export const TEAM_MEMBERS: TeamMember[] = [
+  {
+    id: 'gagan-dileep-vemula',
+    name: 'Gagan Dileep Vemula',
+    role: 'CTO',
+    category: 'Engineering',
+    categoryLabel: 'Technology',
+    bio: 'Leading Teklozy’s technology and engineering direction.',
+    photoUrl: ctoPhoto,
+    socials: {
+      linkedin: 'https://www.linkedin.com/in/vemulagagandileep',
+      github: 'https://github.com/Gagan78119',
+    },
+    rankLevel: 1,
+  },
+  {
+    id: 'harsha-vardhan-dumpa',
+    name: 'Harsha Vardhan Dumpa',
+    role: 'Head of AI',
+    category: 'Engineering',
+    categoryLabel: 'Artificial Intelligence',
+    bio: 'Driving AI initiatives and intelligent product experiences at Teklozy.',
+    photoUrl: headAiPhoto,
+    socials: {
+      linkedin: 'https://www.linkedin.com/in/harsha-vardhan-dumpa-data-analyst-python-backend-developer',
+      github: 'https://github.com/arshavardhan',
+    },
+    rankLevel: 2,
+  },
+  {
+    id: 'tangirala-venkata-raghavendra-pranay',
+    name: 'Tangirala Venkata Raghavendra Pranay',
+    role: 'AI Product Manager',
+    category: 'Product',
+    categoryLabel: 'Product',
+    bio: 'Connecting AI capabilities with useful, student-focused product experiences.',
+    photoUrl: pranayPhoto,
+    socials: {
+      linkedin: 'https://www.linkedin.com/in/tangirala-venkata-raghavendra-pranay-796118301/',
+      github: 'https://github.com/TvrPranay',
+    },
+    rankLevel: 3,
+  },
+  {
+    id: 'subash',
+    name: 'Ande Lakshmi Subhash',
+    role: 'Forward Deployed Engineer',
+    category: 'Engineering',
+    categoryLabel: 'Engineering',
+    bio: 'Turning real-world challenges into practical, production-ready solutions with users and teams.' ,
+    photoUrl: subashPhoto,
+    socials: {
+      linkedin: 'https://www.linkedin.com/in/lakshmisubhash-ande',
+      github: 'https://github.com/Subhashande',
+    },
+    rankLevel: 4,
+  },
+];
 
 
 /**

@@ -51,7 +51,7 @@ export const Footer: React.FC<FooterProps> = ({
   };
 
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-gradient-to-b from-[#102746] via-[#0B1D36] to-[#08172B] text-white font-manrope pt-16 sm:pt-20 pb-8 select-none">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-gradient-to-b from-[#102746] via-[#0B1D36] to-[#08172B] text-white font-manrope pt-8 sm:pt-12 pb-4 sm:pb-5 select-none tk-footer">
       <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[3px] bg-gradient-to-r from-transparent via-[#38BDF8]/80 to-transparent" />
       {/* Background Watermark */}
       <div
@@ -64,7 +64,7 @@ export const Footer: React.FC<FooterProps> = ({
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8">
-        <div className="mb-12 sm:mb-14 rounded-3xl border border-white/10 bg-white/[0.06] px-6 py-7 sm:px-9 sm:py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+        <div className="mb-6 sm:mb-8 rounded-2xl border border-white/10 bg-white/[0.06] px-5 py-4 sm:px-7 sm:py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="max-w-2xl">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-sky-300">Ready to take the next step?</p>
             <h3 className="mt-2 text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Your future starts with one step.</h3>
@@ -75,11 +75,11 @@ export const Footer: React.FC<FooterProps> = ({
           </button>
         </div>
         {/* Main Grid: Left Brand Block + Right Link Columns with Vertical Dividers */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 pb-14 sm:pb-16 border-b border-white/15">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 pb-6 sm:pb-8 border-b border-white/15">
           {/* =========================================================================
               LEFT BLOCK: Logo, Slogan Statement, Get In Touch Button, #StartupIndia
               ========================================================================= */}
-          <div className="lg:col-span-5 space-y-6 lg:pr-10">
+          <div className="lg:col-span-5 space-y-3 sm:space-y-4 lg:pr-8">
             {/* Brand Logo & Name */}
             <div className="flex items-center gap-2.5">
               <div className="w-10 h-10 rounded-2xl bg-white/10 border border-white/15 p-1.5 flex items-center justify-center shadow-[0_6px_18px_rgba(15,23,42,0.06)] shrink-0">
@@ -121,13 +121,13 @@ export const Footer: React.FC<FooterProps> = ({
           {/* =========================================================================
               RIGHT BLOCK: 3 Columns with Vertical Dividers (| Roadmap | Company | Connect)
               ========================================================================= */}
-          <div className="tk-footer-links lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-5 lg:gap-0">
+          <div className="tk-footer-links lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4 lg:gap-0">
             {/* Column 1: Roadmap & Curriculum */}
             <div className="sm:border-l sm:border-white/15 sm:pl-6 lg:pl-9 space-y-4">
               <h4 className="text-[11px] font-extrabold uppercase text-sky-300 tracking-[0.16em]">
                 Roadmap
               </h4>
-              <ul className="space-y-3 text-[13px] sm:text-sm text-slate-300 font-medium">
+              <ul className="space-y-2 sm:space-y-2.5 text-[15px] sm:text-[15px] text-slate-300 font-medium">
                 <li><button type="button" onClick={() => onNavigateToLevel?.(1)} className="hover:text-sky-300 hover:translate-x-0.5 transition-all text-left">10-Level Journey</button></li>
                 <li><button type="button" onClick={() => onNavigateToLevel?.(6)} className="hover:text-sky-300 hover:translate-x-0.5 transition-all text-left">Production Crucibles</button></li>
                 <li><button type="button" onClick={() => onNavigateToLevel?.(7)} className="hover:text-sky-300 hover:translate-x-0.5 transition-all text-left">Achievements</button></li>
@@ -138,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({
             {/* Column 2: Company & destinations */}
             <div className="sm:border-l sm:border-white/15 sm:pl-6 lg:pl-9 space-y-4">
               <h4 className="text-[11px] font-extrabold uppercase text-sky-300 tracking-[0.16em]">Company</h4>
-              <ul className="space-y-3 text-[13px] sm:text-sm text-slate-300 font-medium">
+              <ul className="space-y-2 sm:space-y-2.5 text-[15px] sm:text-[15px] text-slate-300 font-medium">
                 <li><button type="button" onClick={() => onOpenEvents?.()} className="hover:text-sky-300 hover:translate-x-0.5 transition-all duration-200 text-left cursor-pointer">Events & Programs</button></li>
                 <li><button type="button" onClick={() => onOpenOpportunities?.()} className="hover:text-sky-300 hover:translate-x-0.5 transition-all duration-200 text-left cursor-pointer">Career Opportunities</button></li>
                 <li><button type="button" onClick={() => onOpenLogin?.()} className="hover:text-sky-300 hover:translate-x-0.5 transition-all duration-200 text-left cursor-pointer">Portal Login</button></li>
@@ -151,7 +151,7 @@ export const Footer: React.FC<FooterProps> = ({
               <h4 className="text-[11px] font-extrabold uppercase text-sky-300 tracking-[0.16em]">
                 Connect
               </h4>
-              <ul className="space-y-3 text-[13px] sm:text-sm text-slate-300 font-medium">
+              <ul className="space-y-2 sm:space-y-2.5 text-[15px] sm:text-[15px] text-slate-300 font-medium">
                 <li>
                   <a
                     href="mailto:hello@teklozy.com"
@@ -194,7 +194,7 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        <div className="pt-7 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] sm:text-xs font-medium text-slate-400">
+        <div className="pt-4 sm:pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] sm:text-[13px] font-medium text-slate-400">
           <p>© {new Date().getFullYear()} {brandName}. All rights reserved.</p>
           <button
             type="button"
